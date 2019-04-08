@@ -3,6 +3,7 @@
 
 ### IntelliJ IDEA ###
 .idea
+.idea/
 .lib
 *.iws
 *.iml
