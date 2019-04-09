@@ -3,37 +3,49 @@ package com.jazzteam.martynchyk;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Triangle {
 
-    private double x1, x2, x3, y1, y2, y3;
+    private final static int N = 3;
+    private double x[];
+    private double y[];
 
     public Triangle() {
     }
 
-    public Triangle(double x1, double x2, double x3, double y1, double y2, double y3) {
-        this.x1 = x1;
-        this.x2 = x2;
-        this.x3 = x3;
-        this.y1 = y1;
-        this.y2 = y2;
-        this.y3 = y3;
+    public Triangle(double[] arr) {
+        fromArrayToCoordinates(arr);
     }
 
-    public double CalculateArea() {
-        return 0;
+
+    public double area() {
+        return Math.abs(0.5 * ((x[0] - x[2]) * (y[1] - y[2]) - (y[0] - y[2]) * (x[1] - x[2])));
     }
 
-    public void InitializeCoordinates() {
+    public double perimetr() {
+        return Math.sqrt((x[1] - x[0]) * (x[1] - x[0]) + (y[1] - y[0]) * (y[1] - y[0]))
+                + Math.sqrt((x[2] - x[0]) * (x[2] - x[0]) + (y[2] - y[0]) * (y[2] - y[0]))
+                + Math.sqrt((x[2] - x[1]) * (x[2] - x[1]) + (y[2] - y[1]) * (y[2] - y[1]));
+    }
+
+
+    public void initializeCoordinates() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String[] strArray;
+        String[] inputString;
+        double[] inputDouble = new double[N * 2];
         try {
-            for (int i = 0; i < 2; i++) {
-                System.out.println("Enter x" + i + " y" + i);
-                strArray = bufferedReader.readLine().split("\\s");
-                if (isInputValid(strArray)) {
-                    System.out.println(strArray[0]);
-                    System.out.println(strArray[1]);
+            while (true) {
+                System.out.println("Enter x0 y0 x1 y1 x2 y2 ");
+                inputString = bufferedReader.readLine().split("\\s");
+                for (int i = 0; i < N * 2; i++) {
+                    inputDouble[i] = Double.parseDouble(inputString[i]);
+                }
+                if (isInputValid(inputDouble)) {
+                    fromArrayToCoordinates(inputDouble);
+                    break;
+                } else {
+                    System.out.println("Not valid data, try again");
                 }
             }
         } catch (IOException e) {
@@ -41,15 +53,40 @@ public class Triangle {
 
     }
 
-    private boolean isInputValid(String[] input) {
-        if (input.length == 2) {
-            if (Double.parseDouble(input[0]) >= 0 && Double.parseDouble(input[1]) >= 0) {
-                return true;
-            } else {
-                return false;
+    private boolean isInputValid(double[] input) {
+
+        if (input.length == 6) {
+            for (double num : input) {
+                if (num < 0) {
+                    return false;
+                }
             }
+            return true;
         } else {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "x=" + Arrays.toString(x) +
+                ", y=" + Arrays.toString(y) +
+                '}';
+    }
+
+    private void fromArrayToCoordinates(double[] coordinates) {
+        x = new double[N];
+        y = new double[N];
+
+        if (isInputValid(coordinates)) {
+            for (int i = 0; i < N; i++) {
+                x[i] = coordinates[i * 2];
+                y[i] = coordinates[i * 2 + 1];
+            }
+        } else {
+            System.out.println("Not valid data, try again");
+        }
+    }
+
 }
