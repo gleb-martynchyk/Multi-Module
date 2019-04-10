@@ -5,6 +5,10 @@
 .idea
 .idea/
 .lib
+.scannerwork
+*.scannerwork
+*.sonar_lock
 *.iws
 *.iml
 *.ipr
+*.ini
