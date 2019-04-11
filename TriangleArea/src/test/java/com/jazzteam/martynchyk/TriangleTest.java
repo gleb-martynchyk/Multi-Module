@@ -23,9 +23,16 @@ public class TriangleTest {
     }
 
     @Test
-    public void perimetr() {
+    public void areaNegative() {
+        input = new double[]{1, 1, 2};
+        triangle = new Triangle(input);
+        assertEquals(-1.0, triangle.area());
+    }
+
+    @Test
+    public void perimeter() {
         input = new double[]{1, 1, 2, 5, 5, 3};
         triangle = new Triangle(input);
-        assertEquals(12.2, triangle.perimetr(), 0.1);
+        assertEquals(12.2, triangle.perimeter(), 0.1);
     }
 }

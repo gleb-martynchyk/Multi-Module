@@ -1,0 +1,2 @@
+com.jazzteam.martynchyk.Entity.Car
+{"name":"Subary","capacity":4,"speed":200.0}

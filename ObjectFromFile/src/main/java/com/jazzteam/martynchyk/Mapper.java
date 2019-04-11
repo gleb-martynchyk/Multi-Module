@@ -44,7 +44,7 @@ public class Mapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return contentBuilder.toString();
+        return stringToObject(contentBuilder.toString());
     }
 
     public void objectToFile(Object object, String fileName) {

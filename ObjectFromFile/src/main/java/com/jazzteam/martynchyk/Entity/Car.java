@@ -3,6 +3,8 @@ package com.jazzteam.martynchyk.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Setter
 @Getter
 public class Car {
@@ -19,4 +21,27 @@ public class Car {
         this.speed = speed;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return capacity == car.capacity &&
+                Float.compare(car.speed, speed) == 0 &&
+                name.equals(car.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, capacity, speed);
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "name='" + name + '\'' +
+                ", capacity=" + capacity +
+                ", speed=" + speed +
+                '}';
+    }
 }

@@ -33,6 +33,11 @@ public class StackTest {
         assertTrue(!stack.peek().equals(object));
     }
 
+    @Test(expectedExceptions = EmptyStackException.class)
+    public void testPopIfEmptyTrows() {
+        stack.peek();
+    }
+
     @Test
     public void testPeek() throws EmptyStackException {
         stack.push(object);

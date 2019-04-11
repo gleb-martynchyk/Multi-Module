@@ -15,15 +15,22 @@ public class Triangle {
     }
 
     public Triangle(double[] arr) {
-        fromArrayToCoordinates(arr);
+        try {
+            fromArrayToCoordinates(arr);
+        } catch (Exception e) {
+        }
     }
 
 
     public double area() {
-        return Math.abs(0.5 * ((x[0] - x[2]) * (y[1] - y[2]) - (y[0] - y[2]) * (x[1] - x[2])));
+        if (isCoordinatesValid()) {
+            return Math.abs(0.5 * ((x[0] - x[2]) * (y[1] - y[2]) - (y[0] - y[2]) * (x[1] - x[2])));
+        } else {
+            return -1;
+        }
     }
 
-    public double perimetr() {
+    public double perimeter() {
         return Math.sqrt((x[1] - x[0]) * (x[1] - x[0]) + (y[1] - y[0]) * (y[1] - y[0]))
                 + Math.sqrt((x[2] - x[0]) * (x[2] - x[0]) + (y[2] - y[0]) * (y[2] - y[0]))
                 + Math.sqrt((x[2] - x[1]) * (x[2] - x[1]) + (y[2] - y[1]) * (y[2] - y[1]));
@@ -49,8 +56,24 @@ public class Triangle {
                 }
             }
         } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("Not valid data, try again");
         }
 
+    }
+
+    private void fromArrayToCoordinates(double[] coordinates) throws Exception {
+        x = new double[N];
+        y = new double[N];
+
+        if (isInputValid(coordinates)) {
+            for (int i = 0; i < N; i++) {
+                x[i] = coordinates[i * 2];
+                y[i] = coordinates[i * 2 + 1];
+            }
+        } else {
+            throw new Exception("Too small values");
+        }
     }
 
     private boolean isInputValid(double[] input) {
@@ -67,26 +90,26 @@ public class Triangle {
         }
     }
 
+    private boolean isCoordinatesValid() {
+        if (x != null || y != null) {
+            double[] nullArray = {0.0, 0.0, 0.0};
+            if (x.length == 3 && y.length == 3 && !Arrays.equals(x, nullArray) || !Arrays.equals(y, nullArray)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+
     @Override
     public String toString() {
         return "Triangle{" +
                 "x=" + Arrays.toString(x) +
                 ", y=" + Arrays.toString(y) +
                 '}';
-    }
-
-    private void fromArrayToCoordinates(double[] coordinates) {
-        x = new double[N];
-        y = new double[N];
-
-        if (isInputValid(coordinates)) {
-            for (int i = 0; i < N; i++) {
-                x[i] = coordinates[i * 2];
-                y[i] = coordinates[i * 2 + 1];
-            }
-        } else {
-            System.out.println("Not valid data, try again");
-        }
     }
 
 }
