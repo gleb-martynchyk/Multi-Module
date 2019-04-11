@@ -28,7 +28,6 @@ public class Mapper {
     public Object stringToObject(String objectInString) {
         String[] parts = objectInString.split("\n");
         try {
-//            return jsonMapper.readValue(parts[1], Object.class);
             return jsonMapper.readValue(parts[1], Class.forName(parts[0]));
         } catch (ClassNotFoundException | IOException exc) {
             return null;

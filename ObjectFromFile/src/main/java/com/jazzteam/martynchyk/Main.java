@@ -12,6 +12,8 @@ public class Main {
         Car car = new Car("Subary", 4, 200f);
         System.out.println(mapper.objectToString(car));
         System.out.println("After");
-        System.out.println(mapper.stringToObject(mapper.objectToString(car)));
+        String carString = mapper.objectToString(car);
+        Car carA = (Car) mapper.stringToObject(carString);
+        System.out.println(mapper.objectToString(carA));
     }
 }
