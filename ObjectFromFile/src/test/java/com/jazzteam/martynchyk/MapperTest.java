@@ -1,6 +1,6 @@
 package com.jazzteam.martynchyk;
 
-import com.jazzteam.martynchyk.Entity.Car;
+import com.jazzteam.martynchyk.entity.Car;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -20,7 +20,7 @@ public class MapperTest {
     public void setUp() {
         mapper = new Mapper();
         carExpected = new Car("Subary", 4, 200f);
-        carString = "com.jazzteam.martynchyk.Entity.Car\n" +
+        carString = "com.jazzteam.martynchyk.entity.Car\n" +
                 "{\"name\":\"Subary\",\"capacity\":4,\"speed\":200.0}";
     }
 

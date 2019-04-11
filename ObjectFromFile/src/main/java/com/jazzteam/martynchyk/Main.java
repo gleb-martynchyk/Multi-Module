@@ -1,7 +1,5 @@
 package com.jazzteam.martynchyk;
 
-import com.jazzteam.martynchyk.Entity.Car;
-
 public class Main {
     public static void main(String[] args) {
     }

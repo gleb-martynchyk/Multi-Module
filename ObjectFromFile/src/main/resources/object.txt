@@ -1,2 +1,2 @@
-com.jazzteam.martynchyk.Entity.Car
+com.jazzteam.martynchyk.entity.Car
 {"name":"Subary","capacity":4,"speed":200.0}

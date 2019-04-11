@@ -12,6 +12,7 @@
         <module>TriangleArea</module>
         <module>Stack</module>
         <module>ObjectFromFile</module>
+        <module>Bus Stop</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-package com.jazzteam.martynchyk.Entity;
+package com.jazzteam.martynchyk.entity;
 
 import lombok.Getter;
 import lombok.Setter;
