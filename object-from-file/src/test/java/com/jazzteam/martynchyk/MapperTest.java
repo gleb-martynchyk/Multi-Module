@@ -14,7 +14,7 @@ public class MapperTest {
     private Car carActual;
     private String carString;
     private String filePath = "C:\\Users\\Glyanan\\IdeaProjects\\task1" +
-            "\\ObjectFromFile\\src\\main\\resources\\object.txt";
+            "\\object-from-file\\src\\main\\resources\\object.txt";
 
     @BeforeMethod
     public void setUp() {
@@ -54,7 +54,7 @@ public class MapperTest {
     @Test
     public void testFileToObjectNegative() {
         mapper.objectToFile("ooops", filePath);
-        Object object =  mapper.fileToObject(filePath);
+        Object object = mapper.fileToObject(filePath);
         assertNotEquals(object, carExpected);
     }
 

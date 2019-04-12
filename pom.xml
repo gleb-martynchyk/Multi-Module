@@ -9,10 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>TriangleArea</module>
-        <module>Stack</module>
-        <module>ObjectFromFile</module>
-        <module>Bus Stop</module>
+        <module>triangle</module>
+        <module>stack</module>
+        <module>object-from-file</module>
+        <module>bus-stops</module>
     </modules>
 
     <properties>
