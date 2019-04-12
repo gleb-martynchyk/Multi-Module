@@ -57,6 +57,7 @@ public class Mapper {
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
         }
     }
 }

@@ -8,8 +8,8 @@ import java.util.Arrays;
 public class Triangle {
 
     private final static int N = 3;
-    private double x[];
-    private double y[];
+    private double[] x;
+    private double[] y;
 
     public Triangle() {
     }
@@ -31,9 +31,13 @@ public class Triangle {
     }
 
     public double perimeter() {
-        return Math.sqrt((x[1] - x[0]) * (x[1] - x[0]) + (y[1] - y[0]) * (y[1] - y[0]))
-                + Math.sqrt((x[2] - x[0]) * (x[2] - x[0]) + (y[2] - y[0]) * (y[2] - y[0]))
-                + Math.sqrt((x[2] - x[1]) * (x[2] - x[1]) + (y[2] - y[1]) * (y[2] - y[1]));
+        if (isCoordinatesValid()) {
+            return Math.sqrt((x[1] - x[0]) * (x[1] - x[0]) + (y[1] - y[0]) * (y[1] - y[0]))
+                    + Math.sqrt((x[2] - x[0]) * (x[2] - x[0]) + (y[2] - y[0]) * (y[2] - y[0]))
+                    + Math.sqrt((x[2] - x[1]) * (x[2] - x[1]) + (y[2] - y[1]) * (y[2] - y[1]));
+        } else {
+            return -1;
+        }
     }
 
 
@@ -41,38 +45,37 @@ public class Triangle {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         String[] inputString;
         double[] inputDouble = new double[N * 2];
-        try {
-            while (true) {
-                System.out.println("Enter x0 y0 x1 y1 x2 y2 ");
+
+        while (true) {
+            System.out.println("Enter x0 y0 x1 y1 x2 y2 ");
+            try {
                 inputString = bufferedReader.readLine().split("\\s");
                 for (int i = 0; i < N * 2; i++) {
                     inputDouble[i] = Double.parseDouble(inputString[i]);
                 }
-                if (isInputValid(inputDouble)) {
-                    fromArrayToCoordinates(inputDouble);
-                    break;
-                } else {
-                    System.out.println("Not valid data, try again");
-                }
+            } catch (IOException | ArrayIndexOutOfBoundsException e) {
+                System.out.println("Not valid data, try again");
+                continue;
             }
-        } catch (IOException e) {
-        } catch (Exception e) {
-            System.out.println("Not valid data, try again");
+            if (isInputValid(inputDouble)) {
+                fromArrayToCoordinates(inputDouble);
+                break;
+            } else {
+                System.out.println("Not valid data, try again");
+            }
         }
+
 
     }
 
-    private void fromArrayToCoordinates(double[] coordinates) throws Exception {
+    private void fromArrayToCoordinates(double[] coordinates) {
         x = new double[N];
         y = new double[N];
-
         if (isInputValid(coordinates)) {
             for (int i = 0; i < N; i++) {
                 x[i] = coordinates[i * 2];
                 y[i] = coordinates[i * 2 + 1];
             }
-        } else {
-            throw new Exception("Too small values");
         }
     }
 
@@ -88,6 +91,12 @@ public class Triangle {
         } else {
             return false;
         }
+    }
+
+    private boolean isInputStringValid(String string) {
+        for (int i = 0; i < string.length(); i++) {
+        }
+        return false;
     }
 
     private boolean isCoordinatesValid() {
