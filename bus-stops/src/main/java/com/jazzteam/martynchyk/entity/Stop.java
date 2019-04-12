@@ -20,35 +20,31 @@ public class Stop {
     public boolean isFree() {
         int numberOfOccupied = 0;
         for (int i = 0; i < capacity; i++) {
-            if (places[i] == true) {
+            if (places[i]) {
                 numberOfOccupied++;
             }
         }
-        if (numberOfOccupied == capacity) {
-            return false;
-        } else {
-            return true;
-        }
+        return numberOfOccupied != capacity;
     }
 
     public int takeFreePlace() {
-        int outIndex=-1;
+        int outIndex = -1;
         for (int i = 0; i < capacity; i++) {
-            if (places[i] == false) {
+            if (!places[i]) {
                 places[i] = true;
-                outIndex=i;
+                outIndex = i;
                 break;
             }
         }
         return outIndex;
     }
 
-    public void freePlace(int index){
-        places[index]=false;
+    public void freePlace(int index) {
+        places[index] = false;
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(places)+"  ";
+        return Arrays.toString(places) + "  ";
     }
 }

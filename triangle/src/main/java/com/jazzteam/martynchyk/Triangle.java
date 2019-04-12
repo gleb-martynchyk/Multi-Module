@@ -91,7 +91,7 @@ public class Triangle {
     }
 
     private boolean isCoordinatesValid() {
-        if (x != null || y != null) {
+        if (x != null && y != null) {
             double[] nullArray = {0.0, 0.0, 0.0};
             if (x.length == 3 && y.length == 3 && !Arrays.equals(x, nullArray) || !Arrays.equals(y, nullArray)) {
                 return true;
