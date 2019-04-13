@@ -53,7 +53,7 @@ public class Triangle {
                 for (int i = 0; i < N * 2; i++) {
                     inputDouble[i] = Double.parseDouble(inputString[i]);
                 }
-            } catch (IOException | ArrayIndexOutOfBoundsException e) {
+            } catch (IOException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
                 System.out.println("Not valid data, try again");
                 continue;
             }
@@ -64,8 +64,6 @@ public class Triangle {
                 System.out.println("Not valid data, try again");
             }
         }
-
-
     }
 
     private void fromArrayToCoordinates(double[] coordinates) {
@@ -102,7 +100,9 @@ public class Triangle {
     private boolean isCoordinatesValid() {
         if (x != null && y != null) {
             double[] nullArray = {0.0, 0.0, 0.0};
-            if (x.length == 3 && y.length == 3 && !Arrays.equals(x, nullArray) || !Arrays.equals(y, nullArray)) {
+            if (x.length == 3 && y.length == 3 &&
+                    (!Arrays.equals(x, nullArray) || !Arrays.equals(y, nullArray))
+                    &&x[0] * y[1] != x[1] * y[0] && x[0] * y[2] != x[2] * y[0]) {
                 return true;
             } else {
                 return false;
@@ -110,6 +110,7 @@ public class Triangle {
         } else {
             return false;
         }
+
     }
 
 
