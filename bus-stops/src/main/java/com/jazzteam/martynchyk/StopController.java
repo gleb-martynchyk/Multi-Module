@@ -11,10 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 public class StopController {
-
     private int numberOfBus;
     private int numberOfStop;
-    private final static int STOP_SIZE = 3;
+    private static final int STOP_SIZE = 3;
 
     private List<Stop> stops;
     private List<Bus> buses;

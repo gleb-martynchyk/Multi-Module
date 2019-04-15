@@ -1,7 +1,6 @@
 package com.jazzteam.martynchyk;
 
 import com.jazzteam.martynchyk.entity.Car;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -9,19 +8,13 @@ import static org.testng.Assert.assertNotEquals;
 
 public class MapperTest {
 
-    private Mapper mapper;
-    private Car carExpected;
     private Car carActual;
-    private String carString;
+    private Mapper mapper = new Mapper();
+    private Car carExpected = new Car("Subary", 4, 200f);
     private String filePath = getClass().getResource("/object.txt").getPath();
+    private String carString = "com.jazzteam.martynchyk.entity.Car\n" +
+            "{\"name\":\"Subary\",\"capacity\":4,\"speed\":200.0}";
 
-    @BeforeMethod
-    public void setUp() {
-        mapper = new Mapper();
-        carExpected = new Car("Subary", 4, 200f);
-        carString = "com.jazzteam.martynchyk.entity.Car\n" +
-                "{\"name\":\"Subary\",\"capacity\":4,\"speed\":200.0}";
-    }
 
     @Test
     public void testObjectToString() {

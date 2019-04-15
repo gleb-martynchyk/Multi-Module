@@ -9,12 +9,8 @@ import static org.testng.AssertJUnit.assertTrue;
 
 public class StopTest {
     private static final int CAPACITY = 3;
-    private Stop stop;
+    private Stop stop = new Stop(CAPACITY);
 
-    @BeforeMethod
-    public void setUp() {
-        stop = new Stop(CAPACITY);
-    }
 
     @Test
     public void testIsFree() {

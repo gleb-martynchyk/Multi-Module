@@ -1,6 +1,8 @@
 package com.jazzteam.martynchyk.entity;
 
 import com.jazzteam.martynchyk.StopController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static java.lang.Thread.sleep;
 
@@ -8,6 +10,8 @@ public class Bus {
 
     private Thread thread;
     private StopController stopController;
+    private boolean running = false;
+    private static Logger log = LogManager.getLogger(Bus.class);
 
     public Bus(StopController controller) {
         this.stopController = controller;
@@ -18,28 +22,34 @@ public class Bus {
 
     private void tryToTakePlace() {
         int i, myPlace;
-        while (true) {
+        running = true;
+        while (running) {
             for (i = 0; i < stopController.getNumberOfStop(); i++) {
                 if (stopController.isStopFree(i)) {
                     myPlace = stopController.takeFreePlace(i);
                     if (myPlace >= 0) {
-                        System.out.println("Занял:"+i+" "+ myPlace);
+                        log.info("Занял:" + i + " " + myPlace);
                         try {
                             sleep(10000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                            Thread.currentThread().interrupt();
                         }
                         stopController.freePlace(i, myPlace);
                     }
                 } else {
                     try {
-                        System.out.println("Нет свободных в: " + i);
+                        log.info("Нет свободных в: " + i);
                         sleep(3000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
         }
+    }
+
+    public void stop() {
+        running = false;
     }
 }

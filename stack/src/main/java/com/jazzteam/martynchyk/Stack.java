@@ -24,7 +24,7 @@ public class Stack {
     }
 
     public Object pop() {
-        if (empty()) {
+        if (isEmpty()) {
             throw new EmptyStackException();
         } else {
             return object[first--];
@@ -32,14 +32,14 @@ public class Stack {
     }
 
     public Object peek() {
-        if (empty()) {
+        if (isEmpty()) {
             throw new EmptyStackException();
         } else {
             return object[first];
         }
     }
 
-    public boolean empty() {
+    public boolean isEmpty() {
         return first < 0;
     }
 

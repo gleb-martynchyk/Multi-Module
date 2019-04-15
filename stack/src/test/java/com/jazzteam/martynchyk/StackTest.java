@@ -10,23 +10,22 @@ import static org.testng.Assert.assertTrue;
 
 public class StackTest {
 
-    private Object object;
+    private Object object = new Object();
     private Stack stack;
 
     @BeforeMethod
     public void setUp() {
-        object = new Object();
         stack = new Stack();
     }
 
     @Test
-    public void testPush() throws StackOverflowError {
+    public void testPush() {
         stack.push(object);
         assertEquals(stack.peek(), object);
     }
 
     @Test
-    public void testPop() throws EmptyStackException {
+    public void testPop() {
         stack.push(object);
         assertEquals(stack.pop(), object);
         stack.push(new Object());
@@ -46,13 +45,13 @@ public class StackTest {
     }
 
     @Test
-    public void testEmpty() {
-        assertTrue(stack.empty());
+    public void testIsEmpty() {
+        assertTrue(stack.isEmpty());
     }
 
     @Test
-    public void negativeTestEmpty() {
+    public void negativeTestIsEmpty() {
         stack.push(new Object());
-        assertTrue(!stack.empty());
+        assertTrue(!stack.isEmpty());
     }
 }

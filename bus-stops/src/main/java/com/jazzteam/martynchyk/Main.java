@@ -1,5 +1,8 @@
 package com.jazzteam.martynchyk;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static java.lang.Thread.sleep;
 
 public class Main {
@@ -8,17 +11,19 @@ public class Main {
     }
 
     private static void start() {
-        StopController controller = new StopController(3, 50);
+        Logger log = LogManager.getLogger(Main.class);
+
+        StopController controller = new StopController(3, 7);
         controller.startSimulation();
-        System.out.println("Вызвал и ожидаю-------------------");
+        log.info("Вызвал и ожидаю-------------------");
 
         Thread print = new Thread(() -> {
             while (true) {
-                System.out.println(controller.viewStops());
+                log.info(controller.viewStops());
                 try {
                     sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
         });

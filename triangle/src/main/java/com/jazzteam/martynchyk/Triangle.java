@@ -1,12 +1,18 @@
 package com.jazzteam.martynchyk;
 
+import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+@Getter
 public class Triangle {
 
+    private static Logger log = LogManager.getLogger(Triangle.class);
     private final static int N = 3;
     private double[] x;
     private double[] y;
@@ -17,8 +23,7 @@ public class Triangle {
     public Triangle(double[] arr) {
         try {
             fromArrayToCoordinates(arr);
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
     }
 
 
@@ -47,21 +52,21 @@ public class Triangle {
         double[] inputDouble = new double[N * 2];
 
         while (true) {
-            System.out.println("Enter x0 y0 x1 y1 x2 y2 ");
+            log.info("Enter x0 y0 x1 y1 x2 y2 ");
             try {
                 inputString = bufferedReader.readLine().split("\\s");
                 for (int i = 0; i < N * 2; i++) {
                     inputDouble[i] = Double.parseDouble(inputString[i]);
                 }
-            } catch (IOException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
-                System.out.println("Not valid data, try again");
+            } catch (IOException | ArrayIndexOutOfBoundsException | NumberFormatException | NullPointerException e) {
+                log.info("Not valid data, try again");
                 continue;
             }
             if (isInputValid(inputDouble)) {
                 fromArrayToCoordinates(inputDouble);
                 break;
             } else {
-                System.out.println("Not valid data, try again");
+                log.info("Not valid data, try again");
             }
         }
     }
@@ -78,35 +83,17 @@ public class Triangle {
     }
 
     private boolean isInputValid(double[] input) {
-
-        if (input.length == 6) {
-            for (double num : input) {
-                if (num < 0) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean isInputStringValid(String string) {
-        for (int i = 0; i < string.length(); i++) {
-        }
-        return false;
+        return input.length == 6;
     }
 
     private boolean isCoordinatesValid() {
         if (x != null && y != null) {
             double[] nullArray = {0.0, 0.0, 0.0};
-            if (x.length == 3 && y.length == 3 &&
-                    (!Arrays.equals(x, nullArray) || !Arrays.equals(y, nullArray))
-                    &&x[0] * y[1] != x[1] * y[0] && x[0] * y[2] != x[2] * y[0]) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return x.length == 3 && y.length == 3
+                    && (!Arrays.equals(x, nullArray) || !Arrays.equals(y, nullArray))
+                    && x[0] != y[0] || x[1] != y[1] || x[2] != y[2];
+
         } else {
             return false;
         }

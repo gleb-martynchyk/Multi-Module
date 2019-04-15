@@ -49,15 +49,23 @@ public class Mapper {
 
     public void objectToFile(Object object, String fileName) {
         String objectInString = objectToString(object);
+        File file = new File(fileName);
+        FileWriter fileWriter = null;
         try {
-            File file = new File(fileName);
-            FileWriter fileWriter = new FileWriter(file);
+            fileWriter = new FileWriter(file);
             fileWriter.write(objectInString);
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
