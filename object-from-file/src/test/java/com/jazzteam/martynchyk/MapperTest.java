@@ -15,6 +15,7 @@ public class MapperTest {
     private Car carExpected = new Car("Subary", 4, 200f);
     private String filePath = new File("src/main/resources/object.txt")
             .getAbsolutePath();
+
     private String carString = "com.jazzteam.martynchyk.entity.Car\n" +
             "{\"name\":\"Subary\",\"capacity\":4,\"speed\":200.0}";
 
