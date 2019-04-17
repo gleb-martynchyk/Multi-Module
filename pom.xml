@@ -13,6 +13,7 @@
         <module>stack</module>
         <module>object-from-file</module>
         <module>bus-stops</module>
+        <module>patterns</module>
     </modules>
 
     <properties>
