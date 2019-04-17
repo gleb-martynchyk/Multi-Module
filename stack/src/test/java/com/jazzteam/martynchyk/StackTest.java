@@ -28,7 +28,13 @@ public class StackTest {
     public void testPop() {
         stack.push(object);
         assertEquals(stack.pop(), object);
+    }
+
+    @Test
+    public void testPopIsRemoved() {
         stack.push(new Object());
+        stack.push(object);
+        stack.pop();
         assertTrue(!stack.peek().equals(object));
     }
 
@@ -41,8 +47,21 @@ public class StackTest {
     public void testPeek() throws EmptyStackException {
         stack.push(object);
         assertEquals(stack.peek(), object);
+    }
+
+    @Test
+    public void testPeekNotRemovedObject() throws EmptyStackException {
+        stack.push(object);
+        stack.peek();
         assertEquals(stack.peek(), object);
     }
+
+    @Test(expectedExceptions = EmptyStackException.class)
+    public void testPeekNegative() throws EmptyStackException {
+        stack.peek();
+        assertEquals(stack.peek(), object);
+    }
+
 
     @Test
     public void testIsEmpty() {

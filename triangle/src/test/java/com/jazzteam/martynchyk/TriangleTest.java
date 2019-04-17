@@ -30,8 +30,7 @@ public class TriangleTest {
             yExpected[i] = Double.parseDouble(inputs[i * 2 + 1]);
         }
 
-        assertTrue(Arrays.equals(triangle.getY(), yExpected));
-        assertTrue(Arrays.equals(triangle.getX(), xExpected));
+        assertTrue(Arrays.equals(triangle.getY(), yExpected) && Arrays.equals(triangle.getX(), xExpected));
 
     }
 
@@ -79,10 +78,10 @@ public class TriangleTest {
     @DataProvider(name = "BadInputsString")
     public Object[] getBadStringData() {
         return new Object[]{
-//                ""
-                "hello"
-//                "0123",
-//                "500",
+                "",
+                "hello",
+                "0123",
+                "500",
         };
     }
 

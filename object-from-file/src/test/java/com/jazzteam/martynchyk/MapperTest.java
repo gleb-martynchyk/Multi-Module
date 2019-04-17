@@ -13,26 +13,27 @@ public class MapperTest {
     private Car carActual;
     private Mapper mapper = new Mapper();
     private Car carExpected = new Car("Subary", 4, 200f);
+
     private String filePath = new File("src/main/resources/object.txt")
             .getAbsolutePath();
 
-    private String carString = "com.jazzteam.martynchyk.entity.Car\n" +
+    private String expectedString = "com.jazzteam.martynchyk.entity.Car\n" +
             "{\"name\":\"Subary\",\"capacity\":4,\"speed\":200.0}";
 
 
     @Test
     public void testObjectToString() {
-        assertEquals(mapper.objectToString(carExpected), carString);
+        assertEquals(mapper.objectToString(carExpected), expectedString);
     }
 
     @Test
     public void testObjectToStringNegative() {
-        assertNotEquals(mapper.objectToString(""), carString);
+        assertNotEquals(mapper.objectToString(""), expectedString);
     }
 
     @Test
     public void testStringToObject() {
-        assertEquals(mapper.stringToObject(carString), carExpected);
+        assertEquals(mapper.stringToObject(expectedString), carExpected);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

@@ -58,8 +58,8 @@ public class StopController {
 
     public String viewStops() {
         StringBuilder out = new StringBuilder();
-        for (int i = 0; i < numberOfStop; i++) {
-            out.append(stops.get(i).toString());
+        for (Stop stop : stops) {
+            out.append(stop.toString());
         }
         return out.toString();
     }

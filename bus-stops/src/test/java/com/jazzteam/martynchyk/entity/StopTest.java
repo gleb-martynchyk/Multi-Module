@@ -1,6 +1,5 @@
 package com.jazzteam.martynchyk.entity;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
