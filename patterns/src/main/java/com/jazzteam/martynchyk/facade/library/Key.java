@@ -8,4 +8,12 @@ public class Key {
         key = (int) Math.random() * size;
         return key;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getKey() {
+        return key;
+    }
 }

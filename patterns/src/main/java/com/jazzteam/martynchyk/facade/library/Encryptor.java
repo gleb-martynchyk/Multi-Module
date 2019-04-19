@@ -1,12 +1,11 @@
 package com.jazzteam.martynchyk.facade.library;
 
 public class Encryptor {
-    public static String encrypt(int key, Message massage) {
+    public static String encrypt(int key, String massage) {
         char temp;
         StringBuilder builder = new StringBuilder();
-        String massageString = massage.getMassage();
-        for (int i = 0; i < massageString.length(); i++) {
-            temp = massageString.charAt(i);
+        for (int i = 0; i < massage.length(); i++) {
+            temp = massage.charAt(i);
             temp += key;
             builder.append(temp);
         }
