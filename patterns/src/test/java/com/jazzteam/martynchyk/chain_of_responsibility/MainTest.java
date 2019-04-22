@@ -33,7 +33,7 @@ public class MainTest {
     }
 
     @Test
-    public void testChains() {
+    public void testTypeGddr5x() {
         assertEquals(h1.calculateBandwidth(ddr5x), 11200, 0.5);
     }
 
