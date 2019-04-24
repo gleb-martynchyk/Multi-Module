@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "test", urlPatterns = "/test")
+@WebServlet(name = "Test", urlPatterns = "/test")
 public class Servlet extends HttpServlet {
     private String responseTemplate =
             "<html>\n" +
