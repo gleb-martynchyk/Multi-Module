@@ -8,7 +8,7 @@ import java.util.List;
 public class City {
     private int healthPoint;
     private int level;
-    private ReligionsType dominantReligios;
+    private ReligionType dominantReligios;
     private CityResources cityResources;
     private List<Unit> units;
     private List<Building> buildings;

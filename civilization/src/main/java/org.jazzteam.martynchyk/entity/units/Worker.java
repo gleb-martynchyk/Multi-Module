@@ -1,4 +1,8 @@
 package org.jazzteam.martynchyk.entity.units;
 
-public class Worker extends Unit{
+import lombok.Data;
+
+@Data
+public class Worker extends Unit {
+    private int productionProvide;
 }

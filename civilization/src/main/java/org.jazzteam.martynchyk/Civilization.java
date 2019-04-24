@@ -1,11 +1,11 @@
 package org.jazzteam.martynchyk;
 
 import org.jazzteam.martynchyk.entity.City;
-import org.jazzteam.martynchyk.entity.ReligionsType;
+import org.jazzteam.martynchyk.entity.ReligionType;
 
 import java.util.List;
 
 public class Civilization {
     private List<City> cities;
-    private ReligionsType dominantReligios;
+    private ReligionType dominantReligios;
 }

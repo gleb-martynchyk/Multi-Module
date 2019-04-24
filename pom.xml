@@ -15,6 +15,7 @@
         <module>bus-stops</module>
         <module>patterns</module>
         <module>civilization</module>
+        <module>webapp</module>
     </modules>
 
     <properties>

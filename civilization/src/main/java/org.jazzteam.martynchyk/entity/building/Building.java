@@ -1,6 +1,9 @@
 package org.jazzteam.martynchyk.entity.building;
 
-public class Building {
+import lombok.Data;
+
+@Data
+public abstract class Building {
     private int slots;
-    private int produtionCost;
+    private int productionCost;
 }

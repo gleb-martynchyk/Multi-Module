@@ -1,6 +1,6 @@
 package org.jazzteam.martynchyk.entity;
 
-public enum ReligionsType {
+public enum ReligionType {
     BUDDHISM,
     CATHOLICISM,
     CONFUCIANISM,

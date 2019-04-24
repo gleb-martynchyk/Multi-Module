@@ -1,8 +1,10 @@
 package org.jazzteam.martynchyk.entity.units;
 
+import lombok.Data;
 import org.jazzteam.martynchyk.entity.ResourceType;
 
-public class Unit {
+@Data
+public abstract class Unit {
     private int costInGold;
     private int costInResources;
     private ResourceType resourceType;
