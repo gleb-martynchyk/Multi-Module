@@ -14,20 +14,11 @@
     <div>
         <form method="post" action="triangle-area">
             <div>
-                <input type="text" name="input" placeholder="X1" size="2" class="form-control-sm">
-                <input type="text" name="input" placeholder="Y1" size="2" class="form-control-sm">
-            </div>
-            <div>
-                <input type="text" name="input" placeholder="X2" size="2" class="form-control-sm">
-                <input type="text" name="input" placeholder="Y2" size="2" class="form-control-sm">
-            </div>
-            <div>
-                <input type="text" name="input" placeholder="X3" size="2" class="form-control-sm">
-                <input type="text" name="input" placeholder="Y3" size="2" class="form-control-sm">
+                <input type="text" name="input" placeholder="X1" size="2">
             </div>
             <div>
                 <br>
-                <input type="submit" value="Рассчитать" class="btn btn-primary">
+                <input type="submit" value="Рассчитать">
             </div>
         </form>
     </div>
@@ -51,7 +42,7 @@
     </c:choose>
     <br/>
     <form action="applications.jsp">
-        <input type="submit" value="Вернуться к списку задач" class="btn btn-secondary"/>
+        <input type="submit" value="Вернуться к списку задач"/>
     </form>
 </div>
 </body>

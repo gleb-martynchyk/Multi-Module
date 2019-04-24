@@ -13,11 +13,11 @@
 <form method="post" action="welcome">
     <div>
         Login:<br>
-        <input type="text" name="login" value="admin">
+        <input type="text" name="login" value="admin" class="form-control-sm">
     </div>
     <div>
         Password:<br>
-        <input type="password" name="password">
+        <input type="password" name="password" class="form-control-sm">
     </div>
     <div>
         <c:if test="${errorMessage != null}">

@@ -19,7 +19,7 @@
 </form>
 
 <form action="triangle.jsp">
-    <input type="submit" value="Площадь треугольника"/>
+    <input type="submit" value="Площадь треугольника" class="btn btn-secondary"/>
 </form>
 
 </body>
