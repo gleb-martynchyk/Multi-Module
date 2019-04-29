@@ -20,6 +20,7 @@ public class TreeIteratorTest {
     private Tree<Integer> tree;
     private Iterator iterator;
 
+
     @BeforeMethod
     public void setUp() {
         tree = new Tree<>(0);
@@ -54,6 +55,7 @@ public class TreeIteratorTest {
         assertFalse(iterator.hasNext());
     }
 
+    //TODO Осмысленные названия для тестов
     @Test
     public void testHasNextNegative1() {
         tree.addChild(2);

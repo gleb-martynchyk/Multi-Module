@@ -1,5 +1,7 @@
 package org.jazzteam.martynchyk.servlets;
 
+import org.jazzteam.martynchyk.UsersJDBC;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +16,7 @@ public class WelcomeServlet extends HttpServlet {
         String password = request.getParameter("password");
         String errorMessage = null;
 
-        if ((login.equals("admin")) && (password.equals("admin"))) {
+        if (UsersJDBC.isPasswordCorrect(login, password)) {
             request.getRequestDispatcher("/applications.jsp").forward(request, response);
         } else {
             errorMessage = "You are not the valid user...";
@@ -24,6 +26,5 @@ public class WelcomeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

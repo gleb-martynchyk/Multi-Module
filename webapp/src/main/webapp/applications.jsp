@@ -8,18 +8,21 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-<%--<a>Welcome <b>${param.login}</b> You have logged in.</a>--%>
 
 <form method="post" action="">
     <intput type="submit"></intput>
 </form>
 
 <form action="triangle.jsp">
-    <input type="submit" value="Площадь треугольника"/>
+    <input type="submit" value="Площадь треугольника" class="btn btn-secondary"/>
 </form>
 
-<form action="triangle.jsp">
-    <input type="submit" value="Площадь треугольника" class="btn btn-secondary"/>
+<form action="triangleAjax.jsp">
+    <input type="submit" value="Площадь треугольника Ajax" class="btn btn-secondary"/>
+</form>
+
+<form action="encryption.jsp">
+    <input type="submit" value="Шифрование текста" class="btn btn-secondary"/>
 </form>
 
 </body>

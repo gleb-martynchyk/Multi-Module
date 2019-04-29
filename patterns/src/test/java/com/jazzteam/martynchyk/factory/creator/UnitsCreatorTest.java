@@ -6,6 +6,7 @@ import com.jazzteam.martynchyk.factory.units.Soldier;
 import org.testng.annotations.Test;
 
 import static junit.framework.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 public class UnitsCreatorTest {
 
@@ -15,6 +16,12 @@ public class UnitsCreatorTest {
     public void testCreateArcherUnit() {
         unitsCreator = new ArcherCreator();
         assertEquals(unitsCreator.createUnit().getClass(), Archer.class);
+    }
+
+    @Test
+    public void testCreateArcherUnitNEg() {
+        unitsCreator = new ArcherCreator();
+        assertNotEquals(unitsCreator.createUnit().getClass(), Cavalryman.class);
     }
 
     @Test

@@ -26,7 +26,7 @@ public class MainTest {
         h2.setNext(h3);
     }
 
-    //TODO ПАРАМЕТРИЗИРОВАТЬ
+    //TODO ПАРАМЕТРИЗИРОВАТЬ, ДОБАВИТЬ негативные, 5 тестов всего
     @Test
     public void testChainsFirstElement() {
         assertEquals(h1.calculateBandwidth(ddr3), 57600, 0.5);
