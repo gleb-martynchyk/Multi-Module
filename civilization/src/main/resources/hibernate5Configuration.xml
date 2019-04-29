@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="...">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource"
-                  ref="dataSource"/>
-        <property name="packagesToScan"
-                  value="org.jazzteam.martynchyk.entity"/>
+    <context:property-placeholder location="classpath:persistence-mysql.properties"/>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="org.jazzteam.martynchyk.entity"/>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.hbm2ddl.auto">
-                    ${hibernate.hbm2ddl.auto}
-                </prop>
-                <prop key="hibernate.dialect">
-                    ${hibernate.dialect}
-                </prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
             </props>
         </property>
     </bean>
 
-    <bean id="dataSource"
-          class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
-        <!--<property name="driverClassName" value="org.h2.Driver"/>-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.user}"/>
         <property name="password" value="${jdbc.pass}"/>
     </bean>
 
-    <bean id="txManager"
-          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>

@@ -2,24 +2,26 @@ package org.jazzteam.martynchyk.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UnitDao {
+
     @Autowired
     private SessionFactory sessionFactory;
 
-    public Session getSession() {
+    private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
 
-    public Unit getUnit(int unit) {
-        //getSession().get(Unit.class,unit);
-        getSession().byId();
-        return unit;
+    public Unit get(Long id) {
+        return getSession().find(Settler.class, id);
     }
 
-    public Unit createUnit(Unit unit) {
+    public Unit create(Unit unit) {
         getSession().save(unit);
         return unit;
     }
