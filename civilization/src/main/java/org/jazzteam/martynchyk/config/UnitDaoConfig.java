@@ -1,7 +1,7 @@
 package org.jazzteam.martynchyk.config;
 
 
-import org.jazzteam.martynchyk.dao.UnitDao;
+import org.jazzteam.martynchyk.dao.implementation.UnitDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
