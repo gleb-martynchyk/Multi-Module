@@ -1,4 +1,4 @@
-package org.jazzteam.martynchyk.entity;
+package org.jazzteam.martynchyk.entity.enums;
 
 public enum ReligionType {
     BUDDHISM,

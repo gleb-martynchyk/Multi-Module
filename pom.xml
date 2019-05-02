@@ -16,6 +16,7 @@
         <module>patterns</module>
         <module>civilization</module>
         <module>webapp</module>
+        <module>civilization-view</module>
     </modules>
 
     <properties>

@@ -1,7 +1,7 @@
 package org.jazzteam.martynchyk.entity.units;
 
 import lombok.Data;
-import org.jazzteam.martynchyk.entity.ResourceType;
+import org.jazzteam.martynchyk.entity.enums.ResourceType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

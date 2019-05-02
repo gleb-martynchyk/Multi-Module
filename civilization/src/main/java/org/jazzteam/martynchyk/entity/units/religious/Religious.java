@@ -1,7 +1,7 @@
 package org.jazzteam.martynchyk.entity.units.religious;
 
 import lombok.Data;
-import org.jazzteam.martynchyk.entity.ReligionType;
+import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.units.Unit;
 
 @Data

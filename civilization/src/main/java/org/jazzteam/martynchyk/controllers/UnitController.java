@@ -9,4 +9,9 @@ public class UnitController {
     public String showForm() {
         return "sample";
     }
+
+    @GetMapping("/")
+    public String showIndex() {
+        return "index";
+    }
 }

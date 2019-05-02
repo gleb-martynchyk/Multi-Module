@@ -21,4 +21,9 @@ public class UsersJDBCTest {
     public void testIsPasswordCorrectNegative() {
         assertFalse(UsersJDBC.isPasswordCorrect("admin", "admin1"));
     }
+
+    @Test
+    public void testIsPasswordCorrectNegativeSec() {
+        assertFalse(UsersJDBC.isPasswordCorrect("", ""));
+    }
 }

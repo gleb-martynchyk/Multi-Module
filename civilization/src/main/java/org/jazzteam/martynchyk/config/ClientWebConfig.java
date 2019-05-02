@@ -25,7 +25,7 @@ public class ClientWebConfig implements WebMvcConfigurer {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
 
         bean.setViewClass(JstlView.class);
-        bean.setPrefix("/web/view/");
+        bean.setPrefix("/WEB-INF/view/");
         bean.setSuffix(".jsp");
 
         return bean;

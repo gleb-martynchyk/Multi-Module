@@ -1,4 +1,4 @@
-package org.jazzteam.martynchyk.web;
+package org.jazzteam.martynchyk;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;

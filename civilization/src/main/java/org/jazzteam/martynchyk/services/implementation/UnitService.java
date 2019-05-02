@@ -14,7 +14,7 @@ public class UnitService implements BaseService<Unit> {
 
     @Override
     public Unit create(Unit object) {
-        return null;
+        return unitDao.create(object);
     }
 
     @Override
@@ -24,16 +24,16 @@ public class UnitService implements BaseService<Unit> {
 
     @Override
     public List<Unit> findAll() {
-        return null;
+        return unitDao.findAll();
     }
 
     @Override
     public Unit update(Unit object) {
-        return null;
+        return unitDao.update(object);
     }
 
     @Override
     public void delete(long id) {
-
+        unitDao.delete(id);
     }
 }
