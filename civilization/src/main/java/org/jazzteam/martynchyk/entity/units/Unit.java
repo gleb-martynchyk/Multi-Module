@@ -19,4 +19,15 @@ public abstract class Unit {
     private ResourceType resourceType;
     private int healthPoint;
     private int movement;
+
+    public Unit() {
+    }
+
+    public Unit(int costInGold, int costInResources, ResourceType resourceType, int movement) {
+        this.costInGold = costInGold;
+        this.costInResources = costInResources;
+        this.resourceType = resourceType;
+        this.healthPoint = 100;
+        this.movement = movement;
+    }
 }

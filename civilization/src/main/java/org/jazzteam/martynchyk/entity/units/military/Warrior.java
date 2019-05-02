@@ -1,4 +1,10 @@
 package org.jazzteam.martynchyk.entity.units.military;
 
+import org.jazzteam.martynchyk.entity.enums.ResourceType;
+
 public class Warrior extends BaseWarrior {
+    public Warrior() {
+        super(10, 10, ResourceType.PRODUCTION,
+                1, 0, 0, 20);
+    }
 }

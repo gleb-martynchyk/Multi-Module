@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static org.testng.Assert.assertEquals;
+
 public class BattleOfArmiesTest {
     //City city = new City();
     Warrior unitA = new Warrior();
@@ -18,6 +20,7 @@ public class BattleOfArmiesTest {
     Warrior unitAA = new Warrior();
     Warrior unitBA = new Warrior();
     Warrior unitCA = new Warrior();
+    Warrior unitDA = new Warrior();
 
     List<Combat> armyA = new ArrayList<>();
     List<Combat> armyB = new ArrayList<>();
@@ -31,29 +34,47 @@ public class BattleOfArmiesTest {
         armyB.add(unitAA);
         armyB.add(unitBA);
         armyB.add(unitCA);
+        armyB.add(unitDA);
 
     }
 
     @Test
     public void executeBattleTest() {
-        executeBattle(armyA, armyB);
+        assertEquals(executeBattle(armyA, armyB), 0);
     }
 
 
     public int executeBattle(List<Combat> firstArmy, List<Combat> secondArmy) {
         int step = 0;
+        Combat first;
+        Combat second;
         while (firstArmy.size() > 0 && secondArmy.size() > 0) {
             if (step % 2 == 0) {
-                getNext(firstArmy).attack(getNext(secondArmy));
+                first = getNext(firstArmy);
+                second = getNext(secondArmy);
+                first.attack(second);
+
+                if (first.isDead())
+                    firstArmy.remove(first);
+                if (second.isDead())
+                    secondArmy.remove(first);
+
             } else {
-                getNext(secondArmy).attack(getNext(firstArmy));
+                first = getNext(firstArmy);
+                second = getNext(secondArmy);
+                second.attack(first);
+
+                if (first.isDead())
+                    firstArmy.remove(first);
+                if (second.isDead())
+                    secondArmy.remove(first);
             }
             step++;
         }
 
         if (firstArmy.size() <= 0 && secondArmy.size() <= 0) {
             return 0;
-        } else if (firstArmy.size() <= 0) {
+        } else if (secondArmy.size() <= 0) {
             return 1;
         } else {
             return -1;

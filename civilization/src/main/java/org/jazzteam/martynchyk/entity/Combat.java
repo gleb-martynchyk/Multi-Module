@@ -27,4 +27,9 @@ public interface Combat {
     default int calculateDamage(Combat enemy) {
         return (int) (30 * Math.exp((this.getStrength() - enemy.getStrength()) / 24.0));
     }
+
+    default boolean isDead() {
+        return this.getHealthPoint() <= 0;
+    }
+
 }
