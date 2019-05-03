@@ -7,6 +7,7 @@ import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

@@ -4,9 +4,11 @@ import org.jazzteam.martynchyk.dao.implementation.UnitDao;
 import org.jazzteam.martynchyk.entity.units.Unit;
 import org.jazzteam.martynchyk.services.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class UnitService implements BaseService<Unit> {
 
     @Autowired
