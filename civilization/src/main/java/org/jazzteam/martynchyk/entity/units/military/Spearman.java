@@ -17,4 +17,9 @@ public class Spearman extends BaseWarrior {
         }
         enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy, strengthIncrease));
     }
+
+    @Override
+    public String toString() {
+        return "Spearman " + super.toString();
+    }
 }

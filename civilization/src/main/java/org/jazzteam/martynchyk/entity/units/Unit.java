@@ -3,10 +3,7 @@ package org.jazzteam.martynchyk.entity.units;
 import lombok.Data;
 import org.jazzteam.martynchyk.entity.enums.ResourceType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -16,6 +13,7 @@ public abstract class Unit {
     private long id;
     private int costInGold;
     private int costInResources;
+    @Enumerated(EnumType.STRING)
     private ResourceType resourceType;
     private int healthPoint;
     private int movement;

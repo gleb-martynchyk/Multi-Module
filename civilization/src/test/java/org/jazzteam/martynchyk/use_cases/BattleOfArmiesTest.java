@@ -68,6 +68,26 @@ public class BattleOfArmiesTest {
         assertEquals(executeBattle(armyFirst, armySecond), 1);
     }
 
+
+    @Test
+    public void executeBattleArchersAndWarriors() {
+        BaseWarrior warrior1 = new Warrior();
+        BaseWarrior warrior2 = new Warrior();
+        BaseWarrior warrior3 = new Warrior();
+
+        BaseWarrior archer1 = new Archer();
+        BaseWarrior archer2 = new Archer();
+
+        armyFirst.add(warrior1);
+        armyFirst.add(warrior2);
+        armyFirst.add(warrior3);
+
+        armySecond.add(archer1);
+        armySecond.add(archer2);
+
+        assertEquals(executeBattle(armyFirst, armySecond), -1);
+    }
+
     @Test
     public void executeBattleTest() {
         BaseWarrior warrior1 = new Warrior();
@@ -100,8 +120,10 @@ public class BattleOfArmiesTest {
                 second = getNext(secondArmy);
                 first.fight(second);
 
-                if (first.isDead())
+                if (first.isDead()) {
+                    firstArmy.indexOf(first);
                     firstArmy.remove(first);
+                }
                 if (second.isDead())
                     secondArmy.remove(second);
 

@@ -13,4 +13,9 @@ public class HorseMan extends BaseWarrior {
     public void attack(Combat enemy) {
         enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy));
     }
+
+    @Override
+    public String toString() {
+        return "HorseMan " + super.toString();
+    }
 }

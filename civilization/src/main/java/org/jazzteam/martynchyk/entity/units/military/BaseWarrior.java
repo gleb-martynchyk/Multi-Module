@@ -5,6 +5,8 @@ import org.jazzteam.martynchyk.entity.Combat;
 import org.jazzteam.martynchyk.entity.enums.ResourceType;
 import org.jazzteam.martynchyk.entity.units.Unit;
 
+import java.util.Objects;
+
 @Data
 public abstract class BaseWarrior extends Unit implements Combat {
     private int range;
@@ -22,10 +24,25 @@ public abstract class BaseWarrior extends Unit implements Combat {
 
     @Override
     public String toString() {
-        return "BaseWarrior{" +
-                "range=" + range +
+        return "range=" + range +
                 ", rangedStrength=" + rangedStrength +
                 ", strength=" + strength +
                 "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        BaseWarrior warrior = (BaseWarrior) o;
+        return range == warrior.range &&
+                rangedStrength == warrior.rangedStrength &&
+                strength == warrior.strength;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), range, rangedStrength, strength);
     }
 }

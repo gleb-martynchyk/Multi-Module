@@ -7,4 +7,9 @@ public class Warrior extends BaseWarrior {
         super(10, 10, ResourceType.PRODUCTION,
                 1, 0, 0, 20);
     }
+
+    @Override
+    public String toString() {
+        return "Warrior " + super.toString();
+    }
 }

@@ -3,6 +3,7 @@ package org.jazzteam.martynchyk.dao;
 import org.jazzteam.martynchyk.config.HibernateXMLConfig;
 import org.jazzteam.martynchyk.config.UnitDaoConfig;
 import org.jazzteam.martynchyk.dao.implementation.UnitDao;
+import org.jazzteam.martynchyk.entity.enums.ResourceType;
 import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class UnitDaoTest extends AbstractTransactionalTestNGSpringContextTests {
     @Test(dependsOnGroups = "b")
     public void testCreateAndFindUnit() {
         Settler expectedSettler = new Settler();
+        expectedSettler.setCostInGold(22);
+        expectedSettler.setCostInResources(50);
+        expectedSettler.setHealthPoint(100);
+        expectedSettler.setMovement(1);
+        expectedSettler.setResourceType(ResourceType.PRODUCTION);
         unitDao.create(expectedSettler);
         assertEquals(unitDao.find(expectedSettler.getId()), expectedSettler);
     }
