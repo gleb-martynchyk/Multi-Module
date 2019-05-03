@@ -10,24 +10,24 @@ import static org.testng.Assert.assertTrue;
 
 public class BaseWarriorTest {
 
-    BaseWarrior archerA = new Archer();
-    BaseWarrior archerB = new Archer();
+    BaseWarrior warrior1 = new Warrior();
+    BaseWarrior warrior2 = new Warrior();
 
     @BeforeMethod
     public void setUp() {
-        archerA.setHealthPoint(100);
-        archerB.setHealthPoint(100);
-        archerA.setStrength(2);
-        archerB.setStrength(10);
+        warrior1.setHealthPoint(100);
+        warrior2.setHealthPoint(100);
+        warrior1.setStrength(2);
+        warrior2.setStrength(10);
     }
 
     @Test
-    public void attackTestSimple() {
-        int expectedHealthA = archerA.getHealthPoint();
-        int expectedHealthB = archerB.getHealthPoint();
-        archerA.attack(archerB);
-        assertTrue(archerA.getHealthPoint() != expectedHealthA
-                && archerB.getHealthPoint() != expectedHealthB);
+    public void fightTestSimple() {
+        int expectedHealthA = warrior1.getHealthPoint();
+        int expectedHealthB = warrior2.getHealthPoint();
+        warrior1.fight(warrior2);
+        assertTrue(warrior1.getHealthPoint() != expectedHealthA
+                && warrior2.getHealthPoint() != expectedHealthB);
     }
 
     @Test
@@ -35,26 +35,41 @@ public class BaseWarriorTest {
         City city = new City();
         city.setHealthPoint(100);
         int expectedCityHealth = city.getHealthPoint();
-        int expectedUnitHealth = archerA.getHealthPoint();
+        int expectedUnitHealth = warrior1.getHealthPoint();
 
-        archerA.attack(city);
+        warrior1.fight(city);
         assertTrue(city.getHealthPoint() != expectedCityHealth
-                && archerA.getHealthPoint() != expectedUnitHealth);
+                && warrior1.getHealthPoint() != expectedUnitHealth);
     }
 
     @Test(dataProvider = "ValidStrengthAndDamage")
-    public void attackTest(double[] input) {
-        archerA.setStrength((int) input[0]);
-        archerB.setStrength((int) input[1]);
+    public void fightTest(double[] input) {
+        warrior1.setStrength((int) input[0]);
+        warrior2.setStrength((int) input[1]);
 
-        archerA.attack(archerB);
-        assertEquals((double) archerB.getHealthPoint(), input[2], input[2] * 0.25);
+        warrior1.fight(warrior2);
+        assertEquals((double) warrior2.getHealthPoint(), input[2], input[2] * 0.25);
     }
 
     @Test
-    public void attackWithStrengthDifference() {
-        archerA.attack(archerB);
-        assertTrue(archerB.getHealthPoint() > archerA.getHealthPoint());
+    public void fightWithStrengthDifference() {
+        warrior1.fight(warrior2);
+        assertTrue(warrior2.getHealthPoint() > warrior1.getHealthPoint());
+    }
+
+    @Test
+    public void fightHorseManVsSpearmanIsDamageIncrease() {
+        BaseWarrior horseMan = new HorseMan();
+        BaseWarrior spearman = new Spearman();
+        BaseWarrior warrior = new Warrior();
+
+        horseMan.setStrength(10);
+        warrior.setStrength(10);
+
+        spearman.fight(horseMan);
+        spearman.fight(warrior);
+
+        assertTrue(warrior.getHealthPoint() > horseMan.getHealthPoint());
     }
 
     @DataProvider(name = "ValidStrengthAndDamage")

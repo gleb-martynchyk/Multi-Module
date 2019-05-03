@@ -19,4 +19,13 @@ public abstract class BaseWarrior extends Unit implements Combat {
         this.rangedStrength = rangedStrength;
         this.strength = strength;
     }
+
+    @Override
+    public String toString() {
+        return "BaseWarrior{" +
+                "range=" + range +
+                ", rangedStrength=" + rangedStrength +
+                ", strength=" + strength +
+                "} " + super.toString();
+    }
 }

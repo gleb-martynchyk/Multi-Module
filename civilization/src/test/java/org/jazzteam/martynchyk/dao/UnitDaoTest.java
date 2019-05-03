@@ -6,10 +6,12 @@ import org.jazzteam.martynchyk.dao.implementation.UnitDao;
 import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class UnitDaoTest extends AbstractTransactionalTestNGSpringContextTests {
     @Autowired
     private UnitDao unitDao;
 
+    @Rollback(true)
     @Test
     public void testFindUnit() {
         Settler expectedSettler = new Settler();
@@ -80,6 +83,7 @@ public class UnitDaoTest extends AbstractTransactionalTestNGSpringContextTests {
         assertEquals(unitDao.findAll(), unitsExpected);
     }
 
+    @Ignore
     @Test
     public void testFindAllUnitsSec() {
         Unit settlerA = new Settler();

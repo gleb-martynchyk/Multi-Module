@@ -17,15 +17,21 @@ public interface Combat {
 
     void setHealthPoint(int healthPoint);
 
+    default void fight(Combat enemy) {
+        this.attack(enemy);
+        enemy.attack(this);
+    }
+
     default void attack(Combat enemy) {
         enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy));
-        if (enemy.getHealthPoint() > 0) {
-            this.setHealthPoint(this.getHealthPoint() - calculateDamage(this));
-        }
     }
 
     default int calculateDamage(Combat enemy) {
         return (int) (30 * Math.exp((this.getStrength() - enemy.getStrength()) / 24.0));
+    }
+
+    default int calculateDamage(Combat enemy, int strengthIncrease) {
+        return (int) (30 * Math.exp((this.getStrength() + strengthIncrease - enemy.getStrength()) / 24.0));
     }
 
     default boolean isDead() {

@@ -3,22 +3,15 @@ package com.jazzteam.martynchyk.entity;
 import com.jazzteam.martynchyk.StopController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import static java.lang.Thread.sleep;
 
 public class BusTest {
+    private Logger log = LogManager.getLogger(BusTest.class);
 
-    @BeforeMethod
-    public void setUp() {
-    }
-
-    @Ignore
     @Test
     private void main() throws InterruptedException {
-        Logger log = LogManager.getLogger(BusTest.class);
 
         StopController controller = new StopController(3, 7);
         controller.startSimulation();
@@ -35,8 +28,7 @@ public class BusTest {
             }
         });
         print.start();
-        print.join();
+        //print.join();
+        Thread.currentThread().sleep(5000);
     }
-
-
 }
