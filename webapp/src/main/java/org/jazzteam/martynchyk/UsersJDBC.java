@@ -10,9 +10,9 @@ public class UsersJDBC {
     private static Statement statement;
     private static ResultSet resultSet;
 
-    public static boolean isPasswordCorrect(String login, String password) {
+    public static boolean isPasswordCorrect(String login, int password) {
         String query = "select case " +
-                "when \"" + password.hashCode() + "\" = (" +
+                "when \"" + password + "\" = (" +
                 "select password " +
                 "from users " +
                 "where login = \"" + login + "\"" +
@@ -22,7 +22,6 @@ public class UsersJDBC {
         boolean isCorrect = false;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //connection = DriverManager.getConnection(UsersJDBC.url, UsersJDBC.user, UsersJDBC.password);
             connection = UsersJDBC.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);

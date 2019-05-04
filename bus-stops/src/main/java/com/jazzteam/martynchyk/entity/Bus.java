@@ -30,7 +30,7 @@ public class Bus {
                     if (myPlace >= 0) {
                         log.info("Занял:" + i + " " + myPlace);
                         try {
-                            sleep(10000);
+                            sleep(7000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                             Thread.currentThread().interrupt();

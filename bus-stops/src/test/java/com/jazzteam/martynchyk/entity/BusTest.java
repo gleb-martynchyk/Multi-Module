@@ -29,6 +29,6 @@ public class BusTest {
         });
         print.start();
         //print.join();
-        Thread.currentThread().sleep(5000);
+        Thread.currentThread().sleep(10000);
     }
 }

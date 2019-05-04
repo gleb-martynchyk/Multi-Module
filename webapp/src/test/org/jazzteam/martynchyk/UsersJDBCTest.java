@@ -9,21 +9,21 @@ public class UsersJDBCTest {
 
     @Test
     public void testIsPasswordCorrect() {
-        assertTrue(UsersJDBC.isPasswordCorrect("admin", "admin"));
+        assertTrue(UsersJDBC.isPasswordCorrect("admin", "admin".hashCode()));
     }
 
     @Test
     public void testIsPasswordCorrectSec() {
-        assertTrue(UsersJDBC.isPasswordCorrect("gleb", "1111"));
+        assertTrue(UsersJDBC.isPasswordCorrect("gleb", "1111".hashCode()));
     }
 
     @Test
     public void testIsPasswordCorrectNegative() {
-        assertFalse(UsersJDBC.isPasswordCorrect("admin", "admin1"));
+        assertFalse(UsersJDBC.isPasswordCorrect("admin", "admin1".hashCode()));
     }
 
     @Test
     public void testIsPasswordCorrectNegativeSec() {
-        assertFalse(UsersJDBC.isPasswordCorrect("", ""));
+        assertFalse(UsersJDBC.isPasswordCorrect("", "".hashCode()));
     }
 }

@@ -16,7 +16,7 @@ public class WelcomeServlet extends HttpServlet {
         String password = request.getParameter("password");
         String errorMessage = null;
 
-        if (UsersJDBC.isPasswordCorrect(login, password)) {
+        if (UsersJDBC.isPasswordCorrect(login, password.hashCode())) {
             request.getRequestDispatcher("/applications.jsp").forward(request, response);
         } else {
             errorMessage = "You are not the valid user...";

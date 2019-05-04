@@ -31,16 +31,7 @@ public class TriangleTest {
         }
 
         assertTrue(Arrays.equals(triangle.getY(), yExpected) && Arrays.equals(triangle.getX(), xExpected));
-
     }
-
-//    @Test(dataProvider = "BadInputsString")
-//    public void initializeCoordinatesNegative(String input) {
-//        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-//        System.setIn(in);
-//        triangle.initializeCoordinates();
-//        System.setIn(System.in);
-//    }
 
     @Test(dataProvider = "ValidInputsArea")
     public void area(double[] input) {
