@@ -7,7 +7,11 @@ public interface Combat {
 
     int getStrength();
 
-    int getHealthPoint();
+    double getHealthPoint();
+
+    default double getDefence() {
+        return 1.0;
+    }
 
     //void setRange(int range);
 
@@ -15,7 +19,7 @@ public interface Combat {
 
     //void setStrength(int strength);
 
-    void setHealthPoint(int healthPoint);
+    void setHealthPoint(double healthPoint);
 
     default void fight(Combat enemy) {
         this.attack(enemy);
@@ -23,15 +27,15 @@ public interface Combat {
     }
 
     default void attack(Combat enemy) {
-        enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy));
+        enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy) / enemy.getDefence());
     }
 
-    default int calculateDamage(Combat enemy) {
-        return (int) (30 * Math.exp((this.getStrength() - enemy.getStrength()) / 24.0));
+    default double calculateDamage(Combat enemy) {
+        return (30 * Math.exp((this.getStrength() - enemy.getStrength()) / 24.0));
     }
 
-    default int calculateDamage(Combat enemy, int strengthIncrease) {
-        return (int) (30 * Math.exp((this.getStrength() + strengthIncrease - enemy.getStrength()) / 24.0));
+    default double calculateDamage(Combat enemy, int strengthIncrease) {
+        return (30 * Math.exp((this.getStrength() + strengthIncrease - enemy.getStrength()) / 24.0));
     }
 
     default boolean isDead() {

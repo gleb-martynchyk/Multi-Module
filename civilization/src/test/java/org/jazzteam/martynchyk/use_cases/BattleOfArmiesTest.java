@@ -2,18 +2,23 @@ package org.jazzteam.martynchyk.use_cases;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Combat;
 import org.jazzteam.martynchyk.entity.units.military.*;
+import org.jazzteam.martynchyk.services.CombatService;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.testng.Assert.assertEquals;
 
+//@WebAppConfiguration
+//@ContextConfiguration(classes = {CombatServiceConfig.class})
 public class BattleOfArmiesTest {
+
+    private CombatService combatService = new CombatService();
     private Logger log = LogManager.getLogger(BattleOfArmiesTest.class);
     private List<Combat> armyFirst = new ArrayList<>();
     private List<Combat> armySecond = new ArrayList<>();
@@ -32,7 +37,7 @@ public class BattleOfArmiesTest {
         armyFirst.add(warrior1);
         armySecond.add(warrior2);
 
-        assertEquals(executeBattle(armyFirst, armySecond), 0);
+        assertEquals(combatService.executeBattle(armyFirst, armySecond), 0);
     }
 
     @Test
@@ -43,7 +48,7 @@ public class BattleOfArmiesTest {
         armyFirst.add(warrior);
         armySecond.add(spearman);
 
-        assertEquals(executeBattle(armyFirst, armySecond), -1);
+        assertEquals(combatService.executeBattle(armyFirst, armySecond), -1);
     }
 
     @Test
@@ -54,7 +59,7 @@ public class BattleOfArmiesTest {
         armyFirst.add(horseMan);
         armySecond.add(spearman);
 
-        assertEquals(executeBattle(armyFirst, armySecond), -1);
+        assertEquals(combatService.executeBattle(armyFirst, armySecond), -1);
     }
 
     @Test
@@ -65,7 +70,7 @@ public class BattleOfArmiesTest {
         armyFirst.add(horseMan);
         armySecond.add(archer);
 
-        assertEquals(executeBattle(armyFirst, armySecond), 1);
+        assertEquals(combatService.executeBattle(armyFirst, armySecond), 1);
     }
 
 
@@ -85,7 +90,24 @@ public class BattleOfArmiesTest {
         armySecond.add(archer1);
         armySecond.add(archer2);
 
-        assertEquals(executeBattle(armyFirst, armySecond), -1);
+        assertEquals(combatService.executeBattle(armyFirst, armySecond), -1);
+    }
+
+    @Test
+    public void executeBattleArchersVsCity() {
+        Combat city = new City();
+
+        armyFirst.add(new Warrior());
+        armyFirst.add(new Warrior());
+        armyFirst.add(new Warrior());
+        armyFirst.add(new Warrior());
+        armyFirst.add(new Warrior());
+        armyFirst.add(new Warrior());
+        armyFirst.add(new Warrior());
+
+        armySecond.add(city);
+
+        assertEquals(combatService.executeBattle(armyFirst, armySecond), -1);
     }
 
     @Test
@@ -106,53 +128,7 @@ public class BattleOfArmiesTest {
         armySecond.add(warrior5);
         armySecond.add(warrior6);
 
-        log.info(executeBattle(armyFirst, armySecond));
+        log.info(combatService.executeBattle(armyFirst, armySecond));
     }
 
-
-    public int executeBattle(List<Combat> firstArmy, List<Combat> secondArmy) {
-        int step = 0;
-        Combat first;
-        Combat second;
-        while (firstArmy.size() > 0 && secondArmy.size() > 0) {
-            if (step % 2 == 0) {
-                first = getNext(firstArmy);
-                second = getNext(secondArmy);
-                first.fight(second);
-
-                if (first.isDead()) {
-                    firstArmy.indexOf(first);
-                    firstArmy.remove(first);
-                }
-                if (second.isDead())
-                    secondArmy.remove(second);
-
-            } else {
-                first = getNext(firstArmy);
-                second = getNext(secondArmy);
-                second.fight(first);
-
-                if (first.isDead())
-                    firstArmy.remove(first);
-                if (second.isDead())
-                    secondArmy.remove(second);
-            }
-            step++;
-        }
-        log.info("Steps: " + step);
-        if (firstArmy.size() <= 0 && secondArmy.size() <= 0) {
-            return 0;
-        } else if (secondArmy.size() <= 0) {
-            log.info("Winner: " + firstArmy);
-            return 1;
-        } else {
-            log.info("Winner: " + secondArmy);
-            return -1;
-        }
-    }
-
-    public Combat getNext(List<Combat> army) {
-        int randomIndex = new Random().nextInt(army.size());
-        return army.get(randomIndex);
-    }
 }

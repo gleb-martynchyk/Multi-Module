@@ -23,8 +23,8 @@ public class BaseWarriorTest {
 
     @Test
     public void fightTestSimple() {
-        int expectedHealthA = warrior1.getHealthPoint();
-        int expectedHealthB = warrior2.getHealthPoint();
+        double expectedHealthA = warrior1.getHealthPoint();
+        double expectedHealthB = warrior2.getHealthPoint();
         warrior1.fight(warrior2);
         assertTrue(warrior1.getHealthPoint() != expectedHealthA
                 && warrior2.getHealthPoint() != expectedHealthB);
@@ -34,8 +34,8 @@ public class BaseWarriorTest {
     public void battleUnitVsCity() {
         City city = new City();
         city.setHealthPoint(100);
-        int expectedCityHealth = city.getHealthPoint();
-        int expectedUnitHealth = warrior1.getHealthPoint();
+        double expectedCityHealth = city.getHealthPoint();
+        double expectedUnitHealth = warrior1.getHealthPoint();
 
         warrior1.fight(city);
         assertTrue(city.getHealthPoint() != expectedCityHealth
@@ -48,7 +48,7 @@ public class BaseWarriorTest {
         warrior2.setStrength((int) input[1]);
 
         warrior1.fight(warrior2);
-        assertEquals((double) warrior2.getHealthPoint(), input[2], input[2] * 0.25);
+        assertEquals(warrior2.getHealthPoint(), input[2], input[2] * 0.25);
     }
 
     @Test

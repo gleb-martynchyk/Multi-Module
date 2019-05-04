@@ -9,13 +9,25 @@ import java.util.List;
 
 @Data
 public class City implements Combat {
-    private int healthPoint;
+    private double healthPoint;
     private int strength;
     private int level;
+    private double defence;
     private ReligionType dominantReligion;
     private CityResources cityResources;
     private List<Unit> units;
     private List<Building> buildings;
+
+    public City() {
+        this.healthPoint = 100;
+        this.strength = 50;
+        this.level = 0;
+        this.defence = 20;
+        this.dominantReligion = null;
+        this.cityResources = null;
+        this.units = null;
+        this.buildings = null;
+    }
 
     @Override
     public int getRange() {
@@ -29,6 +41,25 @@ public class City implements Combat {
 
     @Override
     public int getStrength() {
-        return 0;
+        return strength;
+    }
+
+    @Override
+    public double getDefence() {
+        return defence*0.1;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "healthPoint=" + healthPoint +
+                ", strength=" + strength +
+                ", level=" + level +
+                ", defence=" + defence +
+                ", dominantReligion=" + dominantReligion +
+                ", cityResources=" + cityResources +
+                ", units=" + units +
+                ", buildings=" + buildings +
+                '}';
     }
 }

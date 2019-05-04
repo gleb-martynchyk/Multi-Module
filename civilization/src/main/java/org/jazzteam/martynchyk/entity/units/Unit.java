@@ -15,7 +15,7 @@ public abstract class Unit {
     private int costInResources;
     @Enumerated(EnumType.STRING)
     private ResourceType resourceType;
-    private int healthPoint;
+    private double healthPoint;
     private int movement;
 
     public Unit() {
