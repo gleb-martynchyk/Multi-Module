@@ -1,9 +1,7 @@
 $(document).on("click", "#calculate", function () {
-    var data = [$('#x0').val(), $('#y0').val()]
     $.ajax({
         url: 'GetTriangle',
         data: {
-            //userName: data
             x0: $('#x0').val(),
             y0: $('#y0').val(),
             x1: $('#x1').val(),

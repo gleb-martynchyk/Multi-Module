@@ -43,6 +43,18 @@ public class SiegeOfTheCityTest {
         armyFirst.add(new Warrior());
         armyFirst.add(new Warrior());
 
+        armySecond.add(city);
+
+        assertEquals(combatService.executeBattle(armyFirst, armySecond), -1);
+    }
+
+    @Test
+    public void executeBattleArchersVsCity() {
+        Combat city = new City();
+
+        armyFirst.add(new Archer());
+        armyFirst.add(new Archer());
+        armyFirst.add(new Archer());
 
         armySecond.add(city);
 

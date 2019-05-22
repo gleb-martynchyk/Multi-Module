@@ -8,11 +8,11 @@ import org.jazzteam.martynchyk.entity.units.Unit;
 import java.util.List;
 
 @Data
-public class City implements Combat {
+public class City implements Combat, Time {
+    private double defence;
     private double healthPoint;
     private int strength;
     private int level;
-    private double defence;
     private ReligionType dominantReligion;
     private CityResources cityResources;
     private List<Unit> units;
@@ -24,7 +24,7 @@ public class City implements Combat {
         this.level = 0;
         this.defence = 20;
         this.dominantReligion = null;
-        this.cityResources = null;
+        this.cityResources = new CityResources(10, 10);
         this.units = null;
         this.buildings = null;
     }
@@ -46,7 +46,34 @@ public class City implements Combat {
 
     @Override
     public double getDefence() {
-        return defence*0.1;
+        return defence * 0.1;
+    }
+
+    @Override
+    public void doTick() {
+        cityResources.setFood(cityResources.getFood() - 2);
+        collectResources();
+    }
+
+    public void addBuilding(Building building) {
+        buildings.add(building);
+    }
+
+    public void removeBuilding(Building building) {
+        buildings.remove(building);
+    }
+
+    public void addUnit(Unit unit) {
+        units.add(unit);
+    }
+
+    public void removeUnit(Unit unit) {
+        units.remove(unit);
+    }
+
+    public void collectResources() {
+        buildings.stream()
+                .forEach(building -> building.produceResource());
     }
 
     @Override
