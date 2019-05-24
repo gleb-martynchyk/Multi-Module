@@ -10,7 +10,7 @@ public interface Combat {
     double getHealthPoint();
 
     default double getDefence() {
-        return 1.0;
+        return 10;
     }
 
     //void setRange(int range);
@@ -27,11 +27,11 @@ public interface Combat {
     }
 
     default void attack(Combat enemy) {
-        enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy) / enemy.getDefence());
+        enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy));
     }
 
     default double calculateDamage(Combat enemy) {
-        return (30 * Math.exp((this.getStrength() - enemy.getStrength()) / 24.0));
+        return (30 * Math.exp((this.getStrength() - enemy.getStrength()) / 24.0)) / (enemy.getDefence() * 0.1);
     }
 
     default double calculateDamage(Combat enemy, int strengthIncrease) {

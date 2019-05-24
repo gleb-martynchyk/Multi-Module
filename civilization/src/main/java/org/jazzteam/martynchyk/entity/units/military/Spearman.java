@@ -22,4 +22,6 @@ public class Spearman extends BaseWarrior {
     public String toString() {
         return "Spearman " + super.toString();
     }
+
+
 }

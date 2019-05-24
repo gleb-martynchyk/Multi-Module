@@ -1,6 +1,7 @@
 package org.jazzteam.martynchyk.entity.units.military;
 
 import org.jazzteam.martynchyk.entity.City;
+import org.jazzteam.martynchyk.entity.Civilization;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -10,6 +11,7 @@ import static org.testng.Assert.assertTrue;
 
 public class BaseWarriorTest {
 
+    private Civilization civilization = new Civilization();
     BaseWarrior warrior1 = new Warrior();
     BaseWarrior warrior2 = new Warrior();
 
@@ -32,7 +34,7 @@ public class BaseWarriorTest {
 
     @Test
     public void battleUnitVsCity() {
-        City city = new City();
+        City city = new City(civilization);
         city.setHealthPoint(100);
         double expectedCityHealth = city.getHealthPoint();
         double expectedUnitHealth = warrior1.getHealthPoint();

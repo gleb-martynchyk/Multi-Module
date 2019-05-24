@@ -2,31 +2,39 @@ package org.jazzteam.martynchyk.entity;
 
 import lombok.Data;
 import org.jazzteam.martynchyk.entity.building.Building;
+import org.jazzteam.martynchyk.entity.building.Improvement;
+import org.jazzteam.martynchyk.entity.building.Producing;
 import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.units.Unit;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class City implements Combat, Time {
+
+    private Civilization civilization;
     private double defence;
     private double healthPoint;
     private int strength;
     private int level;
+    private int food;
+    private int production;
     private ReligionType dominantReligion;
-    private CityResources cityResources;
-    private List<Unit> units;
-    private List<Building> buildings;
+    private Set<Unit> units;
+    private Set<Building> buildings;
 
-    public City() {
+    public City(Civilization civilization) {
+        this.civilization = civilization;
         this.healthPoint = 100;
-        this.strength = 50;
+        this.strength = 40;
         this.level = 0;
         this.defence = 20;
         this.dominantReligion = null;
-        this.cityResources = new CityResources(10, 10);
-        this.units = null;
-        this.buildings = null;
+        this.food = 10;
+        this.production = 10;
+        this.units = new HashSet<>();
+        this.buildings = new HashSet<>();
     }
 
     @Override
@@ -46,20 +54,30 @@ public class City implements Combat, Time {
 
     @Override
     public double getDefence() {
-        return defence * 0.1;
+        return defence;
+    }
+
+    public void setDefence(double defence) {
+        this.defence = defence;
     }
 
     @Override
     public void doTick() {
-        cityResources.setFood(cityResources.getFood() - 2);
+        setFood(getFood() - 2 * units.size());
         collectResources();
     }
 
     public void addBuilding(Building building) {
+        if (building instanceof Improvement) {
+            ((Improvement) building).improveAttribute(this);
+        }
         buildings.add(building);
     }
 
     public void removeBuilding(Building building) {
+        if (building instanceof Improvement) {
+            ((Improvement) building).afterRemoving(this);
+        }
         buildings.remove(building);
     }
 
@@ -73,18 +91,22 @@ public class City implements Combat, Time {
 
     public void collectResources() {
         buildings.stream()
-                .forEach(building -> building.produceResource());
+                .filter(Producing.class::isInstance)
+                .map(Producing.class::cast)
+                .forEach(building -> building.produceResource(this));
     }
 
     @Override
     public String toString() {
         return "City{" +
-                "healthPoint=" + healthPoint +
+                "civilization=" + civilization +
+                ", defence=" + defence +
+                ", healthPoint=" + healthPoint +
                 ", strength=" + strength +
                 ", level=" + level +
-                ", defence=" + defence +
+                ", food=" + food +
+                ", production=" + production +
                 ", dominantReligion=" + dominantReligion +
-                ", cityResources=" + cityResources +
                 ", units=" + units +
                 ", buildings=" + buildings +
                 '}';

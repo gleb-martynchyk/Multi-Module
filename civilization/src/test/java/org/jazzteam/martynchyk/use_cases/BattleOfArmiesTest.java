@@ -3,6 +3,7 @@ package org.jazzteam.martynchyk.use_cases;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.City;
+import org.jazzteam.martynchyk.entity.Civilization;
 import org.jazzteam.martynchyk.entity.Combat;
 import org.jazzteam.martynchyk.entity.units.military.*;
 import org.jazzteam.martynchyk.services.CombatService;
@@ -18,6 +19,7 @@ import static org.testng.Assert.assertEquals;
 //@ContextConfiguration(classes = {CombatServiceConfig.class})
 public class BattleOfArmiesTest {
 
+    private Civilization civilization = new Civilization();
     private CombatService combatService = new CombatService();
     private Logger log = LogManager.getLogger(BattleOfArmiesTest.class);
     private List<Combat> armyFirst = new ArrayList<>();
@@ -95,7 +97,7 @@ public class BattleOfArmiesTest {
 
     @Test
     public void executeBattleArchersVsCity() {
-        Combat city = new City();
+        Combat city = new City(civilization);
 
         armyFirst.add(new Warrior());
         armyFirst.add(new Warrior());

@@ -30,6 +30,8 @@ public abstract class BaseWarrior extends Unit implements Combat {
                 "} " + super.toString();
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -15,13 +15,8 @@ public class Archer extends BaseWarrior {
     }
 
     @Override
-    public void attack(Combat enemy) {
-        enemy.setHealthPoint(enemy.getHealthPoint() - calculateDamage(enemy));
-    }
-
-    @Override
     public double calculateDamage(Combat enemy) {
-        return (30 * Math.exp((this.getRangedStrength() - enemy.getStrength()) / 24.0));
+        return (30 * Math.exp((this.getRangedStrength() - enemy.getStrength()) / 24.0)) / (enemy.getDefence() * 0.1);
     }
 
     @Override

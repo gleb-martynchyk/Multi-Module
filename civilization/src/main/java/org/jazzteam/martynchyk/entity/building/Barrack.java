@@ -1,7 +1,21 @@
 package org.jazzteam.martynchyk.entity.building;
 
-import lombok.Data;
+import org.jazzteam.martynchyk.entity.City;
 
-@Data
-public class Barrack extends Building {
+public class Barrack extends Building implements Improvement {
+
+    private static final int strengthImprovePoint = 10;
+
+    public Barrack() {
+    }
+
+    @Override
+    public void afterRemoving(City city) {
+        city.setStrength(city.getStrength() - strengthImprovePoint);
+    }
+
+    @Override
+    public void improveAttribute(City city) {
+        city.setStrength(city.getStrength() + strengthImprovePoint);
+    }
 }

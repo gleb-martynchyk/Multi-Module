@@ -1,7 +1,17 @@
 package org.jazzteam.martynchyk.entity.building;
 
-import lombok.Data;
+import lombok.Getter;
+import org.jazzteam.martynchyk.entity.City;
 
-@Data
-public class Mine extends Building {
+@Getter
+public class Mine extends Building implements Producing {
+    private static final int productionQuantity = 5;
+
+    public Mine() {
+    }
+
+    @Override
+    public void produceResource(City city) {
+        city.setProduction(city.getProduction() + productionQuantity);
+    }
 }

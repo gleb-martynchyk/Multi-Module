@@ -1,5 +1,6 @@
 package org.jazzteam.martynchyk.entity;
 
+import org.jazzteam.martynchyk.entity.building.DefensiveWall;
 import org.jazzteam.martynchyk.entity.units.military.Archer;
 import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
 import org.jazzteam.martynchyk.entity.units.military.Warrior;
@@ -13,6 +14,7 @@ public class CombatTest {
 
     private BaseWarrior warrior1 = new Warrior();
     private BaseWarrior warrior2 = new Warrior();
+    private Civilization civilization = new Civilization();
 
     @BeforeMethod
     public void setUp() {
@@ -49,5 +51,20 @@ public class CombatTest {
         int expectedDamage = 21;
 
         assertEquals(warrior1.calculateDamage(warrior2), expectedDamage, expectedDamage * 0.25);
+    }
+
+    @Test
+    public void isDefenseWallReduceDamage() {
+        City city = new City(civilization);
+        City citySec = new City(civilization);
+        citySec.addBuilding(new DefensiveWall());
+        BaseWarrior archer = new Archer();
+        archer.attack(city);
+        archer.attack(citySec);
+
+        double expected = city.getHealthPoint();
+        double actual = citySec.getHealthPoint();
+
+        assertTrue(actual > expected);
     }
 }

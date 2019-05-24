@@ -2,6 +2,7 @@ package org.jazzteam.martynchyk.entity.units;
 
 import lombok.Data;
 import org.jazzteam.martynchyk.entity.City;
+import org.jazzteam.martynchyk.entity.Civilization;
 
 import javax.persistence.Entity;
 
@@ -9,6 +10,6 @@ import javax.persistence.Entity;
 @Entity
 public class Settler extends Unit {
     public City baseCity() {
-        return new City();
+        return new City(new Civilization());
     }
 }
