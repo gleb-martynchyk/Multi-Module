@@ -2,7 +2,7 @@ package org.jazzteam.martynchyk.entity.building;
 
 import org.jazzteam.martynchyk.entity.City;
 
-public class DefensiveWall extends Building implements Improvement {
+public class DefensiveWall extends Building implements Improving {
 
     private static final int defenseImprovePoint = 10;
 

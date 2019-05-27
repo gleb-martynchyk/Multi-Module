@@ -24,7 +24,7 @@ public class CityProducingTest {
     @Test
     public void isFarmProduceFood() {
         int foodExpected = city.getFood();
-        city.addBuilding(new Farm());
+        city.addProducingBuildings(new Farm());
         city.collectResources();
         int foodActual = city.getFood();
         assertTrue(foodActual > foodExpected);
@@ -32,7 +32,7 @@ public class CityProducingTest {
 
     @Test
     public void isFarmProduceFoodRepeatedly() {
-        city.addBuilding(new Farm());
+        city.addProducingBuildings(new Farm());
         city.collectResources();
         int foodExpected = city.getFood();
         city.collectResources();
@@ -43,7 +43,7 @@ public class CityProducingTest {
     @Test
     public void isMineProduceProduction() {
         int productionExpected = city.getProduction();
-        city.addBuilding(new Mine());
+        city.addProducingBuildings(new Mine());
         city.collectResources();
         int productionActual = city.getProduction();
         assertTrue(productionActual > productionExpected);
@@ -51,7 +51,7 @@ public class CityProducingTest {
 
     @Test
     public void isMineProduceProductionRepeatedly() {
-        city.addBuilding(new Mine());
+        city.addProducingBuildings(new Mine());
         city.collectResources();
         int productionExpected = city.getProduction();
         city.collectResources();
@@ -63,7 +63,7 @@ public class CityProducingTest {
     @Test
     public void isCampusProduceScience() {
         int productionExpected = city.getCivilization().getScience();
-        city.addBuilding(new Campus());
+        city.addProducingBuildings(new Campus());
         city.collectResources();
         int productionActual = city.getCivilization().getScience();
         assertTrue(productionActual > productionExpected);
@@ -71,7 +71,7 @@ public class CityProducingTest {
 
     @Test
     public void isCampusProduceScienceRepeatedly() {
-        city.addBuilding(new Campus());
+        city.addProducingBuildings(new Campus());
         city.collectResources();
         int scienceExpected = city.getCivilization().getScience();
         city.collectResources();
@@ -82,7 +82,7 @@ public class CityProducingTest {
     @Test
     public void isMarketProduceGold() {
         int goldExpected = city.getCivilization().getGold();
-        city.addBuilding(new Market());
+        city.addProducingBuildings(new Market());
         city.collectResources();
         int goldActual = city.getCivilization().getGold();
         assertTrue(goldActual > goldExpected);
@@ -90,7 +90,7 @@ public class CityProducingTest {
 
     @Test
     public void isMarketProduceGoldRepeatedly() {
-        city.addBuilding(new Market());
+        city.addProducingBuildings(new Market());
         city.collectResources();
         int goldExpected = city.getCivilization().getGold();
         city.collectResources();
@@ -101,7 +101,7 @@ public class CityProducingTest {
     @Test
     public void isTempleProduceFaith() {
         int faithExpected = city.getCivilization().getFaith();
-        city.addBuilding(new Temple());
+        city.addProducingBuildings(new Temple());
         city.collectResources();
         int faithActual = city.getCivilization().getFaith();
         assertTrue(faithActual > faithExpected);
@@ -109,7 +109,7 @@ public class CityProducingTest {
 
     @Test
     public void isTempleProduceFaithRepeatedly() {
-        city.addBuilding(new Temple());
+        city.addProducingBuildings(new Temple());
         city.collectResources();
         int faithExpected = city.getCivilization().getFaith();
         city.collectResources();

@@ -91,7 +91,7 @@ public class SiegeOfTheCityTest {
     }
 
     @Test
-    public void executeBattleArchersVsDefensiveCity() {
+    public void executeBattleArchersVsCityWithDefensiveWall() {
         List<Combat> armySecond1 = new ArrayList<>();
         List<Combat> armyFirst1 = new ArrayList<>();
 
@@ -108,7 +108,37 @@ public class SiegeOfTheCityTest {
 
         armySecond.add(city);
         armySecond1.add(citySecond);
-        citySecond.addBuilding(new DefensiveWall());
+        citySecond.addImprovingBuildings(new DefensiveWall());
+
+        combatService.executeBattle(armyFirst1, armySecond1);
+        combatService.executeBattle(armyFirst, armySecond);
+
+        double expected = city.getHealthPoint();
+        double actual = citySecond.getHealthPoint();
+        assertTrue(actual > expected);
+    }
+
+    @Test
+    public void executeBattleArchersVsCityWithDefensiveWalls() {
+        List<Combat> armySecond1 = new ArrayList<>();
+        List<Combat> armyFirst1 = new ArrayList<>();
+
+        City city = new City(civilization);
+        City citySecond = new City(civilization);
+
+        armyFirst.add(new Archer());
+        armyFirst.add(new Archer());
+        armyFirst.add(new Archer());
+
+        armyFirst1.add(new Archer());
+        armyFirst1.add(new Archer());
+        armyFirst1.add(new Archer());
+
+        armySecond.add(city);
+        armySecond1.add(citySecond);
+        city.addImprovingBuildings(new DefensiveWall());
+        citySecond.addImprovingBuildings(new DefensiveWall());
+        citySecond.addImprovingBuildings(new DefensiveWall());
 
         combatService.executeBattle(armyFirst1, armySecond1);
         combatService.executeBattle(armyFirst, armySecond);

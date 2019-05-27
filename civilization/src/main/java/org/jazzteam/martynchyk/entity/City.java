@@ -1,8 +1,7 @@
 package org.jazzteam.martynchyk.entity;
 
 import lombok.Data;
-import org.jazzteam.martynchyk.entity.building.Building;
-import org.jazzteam.martynchyk.entity.building.Improvement;
+import org.jazzteam.martynchyk.entity.building.Improving;
 import org.jazzteam.martynchyk.entity.building.Producing;
 import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.units.Unit;
@@ -22,7 +21,8 @@ public class City implements Combat, Time {
     private int production;
     private ReligionType dominantReligion;
     private Set<Unit> units;
-    private Set<Building> buildings;
+    private Set<Improving> improvingBuildings;
+    private Set<Producing> producingBuildings;
 
     public City(Civilization civilization) {
         this.civilization = civilization;
@@ -34,7 +34,8 @@ public class City implements Combat, Time {
         this.food = 10;
         this.production = 10;
         this.units = new HashSet<>();
-        this.buildings = new HashSet<>();
+        this.improvingBuildings = new HashSet<>();
+        this.producingBuildings = new HashSet<>();
     }
 
     @Override
@@ -67,19 +68,24 @@ public class City implements Combat, Time {
         collectResources();
     }
 
-    public void addBuilding(Building building) {
-        if (building instanceof Improvement) {
-            ((Improvement) building).improveAttribute(this);
-        }
-        buildings.add(building);
+    public void addImprovingBuildings(Improving improvingBuilding) {
+        improvingBuilding.improveAttribute(this);
+        improvingBuildings.add(improvingBuilding);
     }
 
-    public void removeBuilding(Building building) {
-        if (building instanceof Improvement) {
-            ((Improvement) building).afterRemoving(this);
-        }
-        buildings.remove(building);
+    public void removeImprovingBuildings(Improving improvingBuilding) {
+        improvingBuilding.afterRemoving(this);
+        improvingBuildings.remove(improvingBuilding);
     }
+
+    public void addProducingBuildings(Producing producingBuilding) {
+        producingBuildings.add(producingBuilding);
+    }
+
+    public void removeProducingBuildings(Producing producingBuilding) {
+        producingBuildings.remove(producingBuilding);
+    }
+
 
     public void addUnit(Unit unit) {
         units.add(unit);
@@ -90,9 +96,7 @@ public class City implements Combat, Time {
     }
 
     public void collectResources() {
-        buildings.stream()
-                .filter(Producing.class::isInstance)
-                .map(Producing.class::cast)
+        producingBuildings.stream()
                 .forEach(building -> building.produceResource(this));
     }
 
@@ -108,7 +112,8 @@ public class City implements Combat, Time {
                 ", production=" + production +
                 ", dominantReligion=" + dominantReligion +
                 ", units=" + units +
-                ", buildings=" + buildings +
+                ", improvingBuildings=" + improvingBuildings +
+                ", producingBuildings=" + producingBuildings +
                 '}';
     }
 }

@@ -23,44 +23,44 @@ public class CityBuilding {
 
     @Test
     public void isBuildingsAreAddedTemple() {
-        city.addBuilding(new Temple());
-        assertTrue(!city.getBuildings().isEmpty());
+        city.addProducingBuildings((Producing)new Temple());
+        assertTrue(!city.getProducingBuildings().isEmpty());
     }
 
     @Test
     public void isBuildingsAreAddedBarrack() {
-        city.addBuilding(new Barrack());
-        assertTrue(!city.getBuildings().isEmpty());
+        city.addImprovingBuildings(new Barrack());
+        assertTrue(!city.getImprovingBuildings().isEmpty());
     }
 
     @Test
     public void isBuildingsAreAddedDefensiveWall() {
-        city.addBuilding(new DefensiveWall());
-        assertTrue(!city.getBuildings().isEmpty());
+        city.addImprovingBuildings(new DefensiveWall());
+        assertTrue(!city.getImprovingBuildings().isEmpty());
     }
 
     @Test
     public void isBuildingsAreAddedFarm() {
-        city.addBuilding(new Farm());
-        assertTrue(!city.getBuildings().isEmpty());
+        city.addProducingBuildings(new Farm());
+        assertTrue(!city.getProducingBuildings().isEmpty());
     }
 
     @Test
     public void areBuildingsRemovedOneElement() {
-        Building farm = new Farm();
-        city.addBuilding(farm);
-        city.removeBuilding(farm);
-        assertTrue(city.getBuildings().isEmpty());
+        Producing farm = new Farm();
+        city.addProducingBuildings(farm);
+        city.removeProducingBuildings(farm);
+        assertTrue(city.getProducingBuildings().isEmpty());
     }
 
     @Test
     public void areBuildingsRemovedManyElements() {
-        Building farm = new Farm();
-        Building mine = new Mine();
-        city.addBuilding(farm);
-        city.addBuilding(mine);
-        city.removeBuilding(farm);
-        city.removeBuilding(mine);
-        assertTrue(city.getBuildings().isEmpty());
+        Producing farm = new Farm();
+        Producing mine = new Mine();
+        city.addProducingBuildings(farm);
+        city.addProducingBuildings(mine);
+        city.removeProducingBuildings(farm);
+        city.removeProducingBuildings(mine);
+        assertTrue(city.getProducingBuildings().isEmpty());
     }
 }

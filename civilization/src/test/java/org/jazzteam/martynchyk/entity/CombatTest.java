@@ -57,7 +57,7 @@ public class CombatTest {
     public void isDefenseWallReduceDamage() {
         City city = new City(civilization);
         City citySec = new City(civilization);
-        citySec.addBuilding(new DefensiveWall());
+        citySec.addImprovingBuildings(new DefensiveWall());
         BaseWarrior archer = new Archer();
         archer.attack(city);
         archer.attack(citySec);

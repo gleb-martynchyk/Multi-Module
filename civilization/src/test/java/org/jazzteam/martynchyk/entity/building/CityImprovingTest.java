@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class CityImprovementTest {
+public class CityImprovingTest {
 
     private Logger log = LogManager.getLogger(SiegeOfTheCityTest.class);
     private Civilization civilization = new Civilization();
@@ -25,7 +25,7 @@ public class CityImprovementTest {
     @Test
     public void isBarrackImproveStrength() {
         int strengthExpected = city.getStrength();
-        city.addBuilding(new Barrack());
+        city.addImprovingBuildings(new Barrack());
         int strengthActual = city.getStrength();
         assertTrue(strengthActual > strengthExpected);
     }
@@ -33,7 +33,7 @@ public class CityImprovementTest {
     @Test
     public void isDefenseWallImproveStrength() {
         double defenceExpected = city.getDefence();
-        city.addBuilding(new DefensiveWall());
+        city.addImprovingBuildings(new DefensiveWall());
         double defenceActual = city.getDefence();
         assertTrue(defenceActual > defenceExpected);
     }
@@ -41,9 +41,9 @@ public class CityImprovementTest {
     @Test
     public void isStrengthDecreaseWhenBarrackRemoved() {
         int strengthExpected = city.getStrength();
-        Building barrack = new Barrack();
-        city.addBuilding(barrack);
-        city.removeBuilding(barrack);
+        Improving barrack = new Barrack();
+        city.addImprovingBuildings(barrack);
+        city.removeImprovingBuildings(barrack);
         int strengthActual = city.getStrength();
         assertEquals(strengthActual, strengthExpected);
     }
@@ -51,9 +51,9 @@ public class CityImprovementTest {
     @Test
     public void isDefenseDecreaseWhenWallRemoved() {
         double defenceExpected = city.getDefence();
-        Building wall = new DefensiveWall();
-        city.addBuilding(wall);
-        city.removeBuilding(wall);
+        Improving wall = new DefensiveWall();
+        city.addImprovingBuildings(wall);
+        city.removeImprovingBuildings(wall);
         double defenceActual = city.getDefence();
         assertEquals(defenceActual, defenceExpected);
     }

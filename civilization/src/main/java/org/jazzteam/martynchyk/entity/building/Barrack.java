@@ -2,7 +2,7 @@ package org.jazzteam.martynchyk.entity.building;
 
 import org.jazzteam.martynchyk.entity.City;
 
-public class Barrack extends Building implements Improvement {
+public class Barrack extends Building implements Improving {
 
     private static final int strengthImprovePoint = 10;
 
