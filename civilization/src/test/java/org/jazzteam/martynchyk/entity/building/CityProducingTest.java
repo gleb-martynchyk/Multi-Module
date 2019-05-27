@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
-import org.jazzteam.martynchyk.use_cases.SiegeOfTheCityTest;
+import org.jazzteam.martynchyk.use_cases.BattleWithTheCityTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -12,7 +12,7 @@ import static org.testng.Assert.assertTrue;
 
 public class CityProducingTest {
 
-    private Logger log = LogManager.getLogger(SiegeOfTheCityTest.class);
+    private Logger log = LogManager.getLogger(BattleWithTheCityTest.class);
     private Civilization civilization = new Civilization();
     private City city;
 
@@ -23,10 +23,10 @@ public class CityProducingTest {
 
     @Test
     public void isFarmProduceFood() {
-        int foodExpected = city.getFood();
+        int foodExpected = city.getFood().getAmount();
         city.addProducingBuildings(new Farm());
         city.collectResources();
-        int foodActual = city.getFood();
+        int foodActual = city.getFood().getAmount();
         assertTrue(foodActual > foodExpected);
     }
 
@@ -34,18 +34,18 @@ public class CityProducingTest {
     public void isFarmProduceFoodRepeatedly() {
         city.addProducingBuildings(new Farm());
         city.collectResources();
-        int foodExpected = city.getFood();
+        int foodExpected = city.getFood().getAmount();
         city.collectResources();
-        int foodActual = city.getFood();
+        int foodActual = city.getFood().getAmount();
         assertTrue(foodActual > foodExpected);
     }
 
     @Test
     public void isMineProduceProduction() {
-        int productionExpected = city.getProduction();
+        int productionExpected = city.getProduction().getAmount();
         city.addProducingBuildings(new Mine());
         city.collectResources();
-        int productionActual = city.getProduction();
+        int productionActual = city.getProduction().getAmount();
         assertTrue(productionActual > productionExpected);
     }
 
@@ -53,9 +53,9 @@ public class CityProducingTest {
     public void isMineProduceProductionRepeatedly() {
         city.addProducingBuildings(new Mine());
         city.collectResources();
-        int productionExpected = city.getProduction();
+        int productionExpected = city.getProduction().getAmount();
         city.collectResources();
-        int productionActual = city.getProduction();
+        int productionActual = city.getProduction().getAmount();
         log.info(productionActual + " " + productionExpected);
         assertTrue(productionActual > productionExpected);
     }

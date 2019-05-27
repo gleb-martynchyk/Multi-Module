@@ -4,6 +4,7 @@ import lombok.Data;
 import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.tree.Tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,9 +16,32 @@ public class Civilization implements Time {
     private ReligionType dominantReligios;
     private Tree scienceTree;
 
+    public Civilization() {
+        this.faith = 0;
+        this.gold = 0;
+        this.science = 0;
+        this.cities = new ArrayList<>();
+    }
+
+    public void requestResources(String resourceName) {
+        cities.stream()
+                .filter(cityTemp -> cityTemp.getFood().getAmount() > 0)
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public void doTick() {
         cities.stream()
                 .forEach(city -> city.doTick());
     }
+
+    public void addCity(City city) {
+        cities.add(city);
+    }
+
+    public void removeCity(City city) {
+        cities.add(city);
+    }
+
 }

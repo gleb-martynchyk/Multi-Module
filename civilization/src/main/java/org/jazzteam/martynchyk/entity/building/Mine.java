@@ -12,6 +12,6 @@ public class Mine extends Building implements Producing {
 
     @Override
     public void produceResource(City city) {
-        city.setProduction(city.getProduction() + productionQuantity);
+        city.getProduction().setAmount(city.getProduction().getAmount() + productionQuantity);
     }
 }

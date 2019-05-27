@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -19,13 +20,15 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
+//Тест валится, потому что поле City в Unit
+//должно быть реализовано как OneToMany зависимость
+
 @WebAppConfiguration
 @ContextConfiguration(classes = {HibernateXMLConfig.class, UnitDaoConfig.class})
 public class UnitDaoTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
     private UnitDao unitDao;
-
 
     @Test(dependsOnGroups = "b")
     public void testCreateAndFindUnit() {

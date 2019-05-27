@@ -1,13 +1,16 @@
 package org.jazzteam.martynchyk.entity.units.military;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Combat;
 import org.jazzteam.martynchyk.entity.enums.ResourceType;
 import org.jazzteam.martynchyk.entity.units.Unit;
 
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 public abstract class BaseWarrior extends Unit implements Combat {
     private int range;
     private int rangedStrength;
@@ -15,11 +18,14 @@ public abstract class BaseWarrior extends Unit implements Combat {
 
     public BaseWarrior(int costInGold, int costInResources, ResourceType resourceType,
                        int movement, int range, int rangedStrength, int strength) {
-
         super(costInGold, costInResources, resourceType, movement);
         this.range = range;
         this.rangedStrength = rangedStrength;
         this.strength = strength;
+    }
+
+    public void laySiege(City city) {
+        city.addBesiegeUnit(this);
     }
 
     @Override
@@ -29,8 +35,6 @@ public abstract class BaseWarrior extends Unit implements Combat {
                 ", strength=" + strength +
                 "} " + super.toString();
     }
-
-
 
     @Override
     public boolean equals(Object o) {

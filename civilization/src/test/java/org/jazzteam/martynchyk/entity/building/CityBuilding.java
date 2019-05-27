@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
-import org.jazzteam.martynchyk.use_cases.SiegeOfTheCityTest;
+import org.jazzteam.martynchyk.use_cases.BattleWithTheCityTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -12,7 +12,7 @@ import static org.testng.Assert.assertTrue;
 
 public class CityBuilding {
 
-    private Logger log = LogManager.getLogger(SiegeOfTheCityTest.class);
+    private Logger log = LogManager.getLogger(BattleWithTheCityTest.class);
     private Civilization civilization = new Civilization();
     private City city;
 
@@ -23,7 +23,7 @@ public class CityBuilding {
 
     @Test
     public void isBuildingsAreAddedTemple() {
-        city.addProducingBuildings((Producing)new Temple());
+        city.addProducingBuildings(new Temple());
         assertTrue(!city.getProducingBuildings().isEmpty());
     }
 

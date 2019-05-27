@@ -1,16 +1,22 @@
 package org.jazzteam.martynchyk.entity.units;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.enums.ResourceType;
 
 import javax.persistence.*;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 public abstract class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Transient
+    private City city;
     private int costInGold;
     private int costInResources;
     @Enumerated(EnumType.STRING)
@@ -27,5 +33,23 @@ public abstract class Unit {
         this.resourceType = resourceType;
         this.healthPoint = 100;
         this.movement = movement;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Unit unit = (Unit) o;
+        return id == unit.id &&
+                costInGold == unit.costInGold &&
+                costInResources == unit.costInResources &&
+                Double.compare(unit.healthPoint, healthPoint) == 0 &&
+                movement == unit.movement &&
+                resourceType == unit.resourceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, costInGold, costInResources, resourceType, healthPoint, movement);
     }
 }

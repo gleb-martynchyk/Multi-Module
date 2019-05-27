@@ -12,4 +12,5 @@ public class Warrior extends BaseWarrior {
     public String toString() {
         return "Warrior " + super.toString();
     }
+
 }

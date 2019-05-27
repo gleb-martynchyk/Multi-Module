@@ -13,12 +13,6 @@ public interface Combat {
         return 10;
     }
 
-    //void setRange(int range);
-
-    //void setRangedStrength(int rangedStrength);
-
-    //void setStrength(int strength);
-
     void setHealthPoint(double healthPoint);
 
     default void fight(Combat enemy) {
