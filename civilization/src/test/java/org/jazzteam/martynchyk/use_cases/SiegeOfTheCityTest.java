@@ -4,15 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
-import org.jazzteam.martynchyk.entity.Combat;
 import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
 import org.jazzteam.martynchyk.entity.units.military.Warrior;
-import org.jazzteam.martynchyk.services.CombatService;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
@@ -45,4 +40,19 @@ public class SiegeOfTheCityTest {
         }
         assertTrue(city.isSieged());
     }
+
+    @Test
+    public void isCitySiegeBlockResourceSupport() {
+        City city = new City(civilization);
+        city.setSieged(true);
+        assertFalse(city.requestSupport());
+    }
+
+    @Test
+    public void isNotSiegedCityCanResourceSupport() {
+        City city = new City(civilization);
+        city.setSieged(false);
+        assertTrue(city.requestSupport());
+    }
+
 }

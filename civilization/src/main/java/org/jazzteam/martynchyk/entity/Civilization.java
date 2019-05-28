@@ -23,13 +23,6 @@ public class Civilization implements Time {
         this.cities = new ArrayList<>();
     }
 
-    public void requestResources(String resourceName) {
-        cities.stream()
-                .filter(cityTemp -> cityTemp.getFood().getAmount() > 0)
-                .findFirst()
-                .orElse(null);
-    }
-
     @Override
     public void doTick() {
         cities.stream()

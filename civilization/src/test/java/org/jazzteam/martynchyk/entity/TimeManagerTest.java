@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.building.Farm;
 import org.jazzteam.martynchyk.entity.units.Worker;
+import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
+import org.jazzteam.martynchyk.entity.units.military.Warrior;
 import org.jazzteam.martynchyk.use_cases.BattleWithTheCityTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -24,8 +26,9 @@ public class TimeManagerTest {
 
     @BeforeMethod
     public void setUp() {
+        civilization = new Civilization();
         city = new City(civilization);
-        civilization.addCity(city);
+        //civilization.addCity(city);
         civilizationList.clear();
         civilizationList.add(civilization);
         timeManager = new TimeManager(civilizationList);
@@ -55,6 +58,24 @@ public class TimeManagerTest {
         city.doTick();
         int actual = city.getFood().getAmount();
         assertTrue(actual > expected);
+    }
+
+    @Test
+    public void testCityDoTickRemoveDeadBesiegeUnits() {
+        BaseWarrior warrior = new Warrior();
+        BaseWarrior warrior1 = new Warrior();
+        BaseWarrior warrior2 = new Warrior();
+        warrior.laySiege(city);
+        warrior1.laySiege(city);
+        warrior2.laySiege(city);
+        int expected = city.getBesiegeUnits().size();
+        city.doTick();
+        warrior1.setHealthPoint(-1);
+        warrior2.setHealthPoint(-1);
+        city.doTick();
+        int actual = city.getBesiegeUnits().size();
+
+        assertTrue(actual + 2 == expected);
     }
 
     @Test

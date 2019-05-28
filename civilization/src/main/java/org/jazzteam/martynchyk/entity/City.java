@@ -5,14 +5,14 @@ import lombok.Setter;
 import org.jazzteam.martynchyk.entity.building.Improving;
 import org.jazzteam.martynchyk.entity.building.Producing;
 import org.jazzteam.martynchyk.entity.enums.ReligionType;
+import org.jazzteam.martynchyk.entity.resources.Resource;
 import org.jazzteam.martynchyk.entity.resources.implementation.Food;
 import org.jazzteam.martynchyk.entity.resources.implementation.Production;
 import org.jazzteam.martynchyk.entity.units.Unit;
 import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -23,8 +23,7 @@ public class City implements Combat, Time {
     private double healthPoint;
     private int strength;
     private int level;
-    private Food food;
-    private Production production;
+    private Map<String, Resource> resources;
     private boolean isSieged;
     private ReligionType dominantReligion;
     private List<Unit> units;
@@ -32,18 +31,21 @@ public class City implements Combat, Time {
     private List<Improving> improvingBuildings;
     private List<Producing> producingBuildings;
 
+    //TODO может удалить? посмотреть тесты
     public City() {
     }
 
     public City(Civilization civilization) {
+        this.resources = new HashMap<>();
+        resources.put(Food.class.getName(), new Food(10));
+        resources.put(Production.class.getName(), new Production(10));
         this.civilization = civilization;
+        civilization.addCity(this);
         this.healthPoint = 100;
         this.strength = 40;
         this.level = 0;
         this.defence = 20;
         this.dominantReligion = null;
-        this.food = new Food(10);
-        this.production = new Production(10);
         this.isSieged = false;
         this.units = new ArrayList<>();
         this.besiegeUnits = new ArrayList<>();
@@ -75,23 +77,71 @@ public class City implements Combat, Time {
         this.defence = defence;
     }
 
+    public Resource getFood() {
+        return resources.get(Food.class.getName());
+    }
+
+    public void setFood(Food food) {
+        this.resources.put(Food.class.getName(), food);
+    }
+
+    public Resource getProduction() {
+        return resources.get(Production.class.getName());
+    }
+
+    public void setProduction(Production production) {
+        this.resources.put(Production.class.getName(), production);
+    }
+
     @Override
     public void doTick() {
-        food.setAmount(food.getAmount() - 2 * units.size());
+        besiegeUnits = besiegeUnits.stream()
+                .filter(combat -> !combat.isDead())
+                .collect(Collectors.toList());
+        getFood().setAmount(getFood().getAmount() - 2 * units.size());
         collectResources();
         if (resourcesAreEmpty()) {
-            getResourcesFromOtherCities();
+            requestSupport();
         }
     }
 
-    public void getResourcesFromOtherCities() {
+    public boolean requestSupport() {
         if (!isSieged) {
-            civilization.requestResources(Food.class.getName());
-        }
+            List<City> cities = civilization.getCities();
+            cities.remove(this);
+            final int maxRequestCount = (int) (cities.size() * 2.5);
+            resources.entrySet().stream()
+                    .filter(resource -> resource.getValue().isEmpty())
+                    .forEach(resource -> {
+                        int i = 0;
+                        while (resource.getValue().isEmpty() && i < maxRequestCount) {
+                            String resourceType = resource.getKey();
+
+                            City cityDonor = cities.stream()
+                                    .filter(city -> city.getResources().get(resourceType).isInAbundance(city))
+                                    .max(Comparator.comparingInt(city -> city.getResources().get(resourceType).getAmount()))
+                                    .orElse(null);
+
+                            if (cityDonor != null) {
+                                int excess = (int) (0.3 * cityDonor.getResources().get(resourceType).getExcess(cityDonor));
+                                cityDonor.getResources().get(resourceType).setAmount(
+                                        cityDonor.getResources().get(resourceType).getAmount() - excess
+                                );
+                                this.getResources().get(resourceType).setAmount(
+                                        this.getResources().get(resourceType).getAmount() + excess
+                                );
+                            }
+                            i++;
+                        }
+                    });
+            return !resourcesAreEmpty();
+        } else return false;
     }
 
-    private boolean resourcesAreEmpty() {
-        return getFood().getAmount() <= 2 * units.size() && getProduction().getAmount() <= 0;
+    public boolean resourcesAreEmpty() {
+        return resources.entrySet().stream()
+                .filter(resource -> resource.getValue().isEmpty())
+                .count() > 0;
     }
 
     public void addBesiegeUnit(BaseWarrior unit) {
@@ -149,8 +199,7 @@ public class City implements Combat, Time {
                 level == city.level &&
                 isSieged == city.isSieged &&
                 Objects.equals(civilization, city.civilization) &&
-                Objects.equals(food, city.food) &&
-                Objects.equals(production, city.production) &&
+                Objects.equals(resources, city.resources) &&
                 dominantReligion == city.dominantReligion &&
                 Objects.equals(units, city.units) &&
                 Objects.equals(besiegeUnits, city.besiegeUnits) &&
@@ -160,7 +209,7 @@ public class City implements Combat, Time {
 
     @Override
     public int hashCode() {
-        return Objects.hash(civilization, defence, healthPoint, strength, level, food, production, isSieged, dominantReligion, units, besiegeUnits, improvingBuildings, producingBuildings);
+        return Objects.hash(civilization, defence, healthPoint, strength, level, resources, isSieged, dominantReligion, units, besiegeUnits, improvingBuildings, producingBuildings);
     }
 
     @Override
@@ -170,8 +219,8 @@ public class City implements Combat, Time {
                 ", healthPoint=" + healthPoint +
                 ", strength=" + strength +
                 ", level=" + level +
-                ", food=" + food +
-                ", production=" + production +
+                ", food=" + getFood() +
+                ", production=" + getProduction() +
                 ", dominantReligion=" + dominantReligion +
                 ", units=" + units +
                 ", improvingBuildings=" + improvingBuildings +

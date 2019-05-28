@@ -14,10 +14,7 @@ public class TimeManager implements Time {
     @Override
     public void doTick() {
         civilizations.stream()
-                .forEach(civilization -> {
-                            civilization.doTick();
-                        }
-                );
+                .forEach(Civilization::doTick);
         ticks++;
     }
 
