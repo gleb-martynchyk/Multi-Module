@@ -28,7 +28,6 @@ public class TimeManagerTest {
     public void setUp() {
         civilization = new Civilization();
         city = new City(civilization);
-        //civilization.addCity(city);
         civilizationList.clear();
         civilizationList.add(civilization);
         timeManager = new TimeManager(civilizationList);

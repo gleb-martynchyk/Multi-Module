@@ -12,6 +12,7 @@ public class Civilization implements Time {
     private int faith;
     private int gold;
     private int science;
+    private int capital;
     private List<City> cities;
     private ReligionType dominantReligios;
     private Tree scienceTree;

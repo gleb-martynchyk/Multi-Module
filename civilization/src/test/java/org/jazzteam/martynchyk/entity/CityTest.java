@@ -43,25 +43,25 @@ public class CityTest {
     }
 
     @Test
-    public void testRequestSupportIsImproveFood() {
+    public void testRequestResourcesIsImproveFood() {
         City city1 = new City(civilization);
         city1.getResources().get(Food.class.getName()).setAmount(20);
         city.getResources().get(Food.class.getName()).setAmount(0);
         int expected = city.getResources().get(Food.class.getName()).getAmount();
-        city.requestSupport();
+        city.requestResourcesFromCivilization();
         int actual = city.getResources().get(Food.class.getName()).getAmount();
         assertNotEquals(expected, actual);
     }
 
     @Test
-    public void testRequestSupportIsImproveFoodWithUnit() {
+    public void testRequestResourcesIsImproveFoodWithUnit() {
         City city1 = new City(civilization);
         city1.getResources().get(Food.class.getName()).setAmount(20);
         city.getResources().get(Food.class.getName()).setAmount(0);
         city.addUnit(new Worker());
         city.addUnit(new Worker());
         int expected = city.getResources().get(Food.class.getName()).getAmount();
-        city.requestSupport();
+        city.requestResourcesFromCivilization();
         int actual = city.getResources().get(Food.class.getName()).getAmount();
         assertNotEquals(expected, actual);
     }
@@ -76,7 +76,7 @@ public class CityTest {
         city.getResources().get(Food.class.getName()).setAmount(0);
 
         int expected = city.getResources().get(Food.class.getName()).getAmount();
-        city.requestSupport();
+        city.requestResourcesFromCivilization();
         int actual = city.getResources().get(Food.class.getName()).getAmount();
         assertNotEquals(expected, actual);
     }
@@ -90,7 +90,7 @@ public class CityTest {
         city2.getResources().get(Food.class.getName()).setAmount(10);
         city.getResources().get(Food.class.getName()).setAmount(0);
 
-        city.requestSupport();
+        city.requestResourcesFromCivilization();
         log.info(city.getResources().get(Food.class.getName()).getAmount());
         log.info(city1.getResources().get(Food.class.getName()).getAmount());
         log.info(city2.getResources().get(Food.class.getName()).getAmount());
@@ -108,7 +108,7 @@ public class CityTest {
         city.getResources().get(Food.class.getName()).setAmount(0);
 
         city.getResources().get(Food.class.getName()).getExcess(city);
-        boolean result = city.requestSupport();
+        boolean result = city.requestResourcesFromCivilization();
 
         log.info(city.getResources().get(Food.class.getName()).getAmount());
         log.info(city1.getResources().get(Food.class.getName()).getAmount());
@@ -127,7 +127,7 @@ public class CityTest {
         city.getResources().get(Food.class.getName()).setAmount(0);
 
         city.getResources().get(Food.class.getName()).getExcess(city);
-        boolean result = city.requestSupport();
+        boolean result = city.requestResourcesFromCivilization();
 
         log.info(city.getResources().get(Food.class.getName()).getAmount());
         log.info(city1.getResources().get(Food.class.getName()).getAmount());

@@ -45,14 +45,14 @@ public class SiegeOfTheCityTest {
     public void isCitySiegeBlockResourceSupport() {
         City city = new City(civilization);
         city.setSieged(true);
-        assertFalse(city.requestSupport());
+        assertFalse(city.requestResourcesFromCivilization());
     }
 
     @Test
     public void isNotSiegedCityCanResourceSupport() {
         City city = new City(civilization);
         city.setSieged(false);
-        assertTrue(city.requestSupport());
+        assertTrue(city.requestResourcesFromCivilization());
     }
 
 }

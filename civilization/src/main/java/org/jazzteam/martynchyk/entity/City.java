@@ -30,10 +30,7 @@ public class City implements Combat, Time {
     private List<Combat> besiegeUnits;
     private List<Improving> improvingBuildings;
     private List<Producing> producingBuildings;
-
-    //TODO может удалить? посмотреть тесты
-    public City() {
-    }
+    private Set<TradeRoute> tradeRoutes;
 
     public City(Civilization civilization) {
         this.resources = new HashMap<>();
@@ -51,6 +48,7 @@ public class City implements Combat, Time {
         this.besiegeUnits = new ArrayList<>();
         this.improvingBuildings = new ArrayList<>();
         this.producingBuildings = new ArrayList<>();
+        this.tradeRoutes = new HashSet<>();
     }
 
     @Override
@@ -93,49 +91,90 @@ public class City implements Combat, Time {
         this.resources.put(Production.class.getName(), production);
     }
 
+    public void setCivilization(Civilization civilization) {
+        this.civilization.removeCity(this);
+        this.civilization = civilization;
+        civilization.addCity(this);
+    }
+
     @Override
     public void doTick() {
         besiegeUnits = besiegeUnits.stream()
                 .filter(combat -> !combat.isDead())
                 .collect(Collectors.toList());
+        //TODO setAmount должен возвращать boolean, чтобы не установить еду отрицательной
         getFood().setAmount(getFood().getAmount() - 2 * units.size());
         collectResources();
         if (resourcesAreEmpty()) {
-            requestSupport();
+            requestResourcesFromCivilization();
         }
     }
 
-    public boolean requestSupport() {
-        if (!isSieged) {
-            List<City> cities = civilization.getCities();
-            cities.remove(this);
-            final int maxRequestCount = (int) (cities.size() * 2.5);
-            resources.entrySet().stream()
-                    .filter(resource -> resource.getValue().isEmpty())
-                    .forEach(resource -> {
-                        int i = 0;
-                        while (resource.getValue().isEmpty() && i < maxRequestCount) {
-                            String resourceType = resource.getKey();
+    public TradeDeal exchangeResourcesThroughTradeRoute(TradeDeal tradeDeal) {
+        TradeRoute tradeRoute = tradeRoutes.stream()
+                .filter(route -> route.getCityToTrade(this).agreeToExchange(tradeDeal))
+                //.filter(route -> route.agreeToExchange(tradeDeal))
+                .findAny()
+                .orElse(null);
+        if (tradeRoute != null) {
+            tradeRoute.getCityToTrade(this).exchange(tradeDeal);
+        } else {
+            tradeDeal.setStatus(TradeDeal.Status.REFUSED);
+            return tradeDeal;
+        }
+        return tradeDeal;
+    }
 
-                            City cityDonor = cities.stream()
-                                    .filter(city -> city.getResources().get(resourceType).isInAbundance(city))
-                                    .max(Comparator.comparingInt(city -> city.getResources().get(resourceType).getAmount()))
-                                    .orElse(null);
+    public TradeDeal exchange(TradeDeal tradeDeal) {
+        return null;
+    }
 
-                            if (cityDonor != null) {
-                                int excess = (int) (0.3 * cityDonor.getResources().get(resourceType).getExcess(cityDonor));
-                                cityDonor.getResources().get(resourceType).setAmount(
-                                        cityDonor.getResources().get(resourceType).getAmount() - excess
-                                );
-                                this.getResources().get(resourceType).setAmount(
-                                        this.getResources().get(resourceType).getAmount() + excess
-                                );
-                            }
-                            i++;
+    public boolean agreeToExchange(TradeDeal tradeDeal) {
+        return false;
+    }
+
+    public boolean requestResourcesFromCivilization() {
+        if (isSieged) {
+            return false;
+        }
+
+        List<City> cities = civilization.getCities();
+        cities.remove(this);
+        final int maxRequestCount = (int) (cities.size() * 2.5);
+        resources.entrySet().stream()
+                .filter(resource -> resource.getValue().isEmpty())
+                .forEach(resource -> {
+                    for (int i = 0; resource.getValue().isEmpty() && i < maxRequestCount; i++) {
+                        String resourceType = resource.getKey();
+
+                        City supporter = findCityThatCanProvideResource(cities, resourceType);
+
+                        if (supporter != null) {
+                            requestResourceFromCity(supporter, resourceType);
                         }
-                    });
-            return !resourcesAreEmpty();
-        } else return false;
+                    }
+                });
+        return !resourcesAreEmpty();
+    }
+
+    private City findCityThatCanProvideResource(List<City> cities, String resourceType) {
+        return cities.stream()
+                .filter(city -> city.getResources().get(resourceType).isInAbundance(city))
+                .max(Comparator.comparingInt(city -> city.getResources().get(resourceType).getAmount()))
+                .orElse(null);
+    }
+
+
+    public int requestResourceFromCity(City cityDonor, String resourceType) {
+        int excess = (int) (0.3 * cityDonor.getResources().get(resourceType).getExcess(cityDonor));
+        cityDonor.getResources().get(resourceType).setAmount(
+                cityDonor.getResources().get(resourceType).getAmount() - excess
+        );
+        this.getResources().get(resourceType).setAmount(
+                this.getResources().get(resourceType).getAmount() + excess
+        );
+        //TODO update resource amount, чтобы все было в одной функции
+        return excess;
     }
 
     public boolean resourcesAreEmpty() {
@@ -151,6 +190,14 @@ public class City implements Combat, Time {
 
     public void removeBesiegeUnit(BaseWarrior unit) {
         besiegeUnits.remove(unit);
+    }
+
+    public void addTradeRoute(TradeRoute route) {
+        tradeRoutes.add(route);
+    }
+
+    public void removeTradeRoute(TradeRoute route) {
+        tradeRoutes.remove(route);
     }
 
     public void addImprovingBuildings(Improving improvingBuilding) {
@@ -198,7 +245,6 @@ public class City implements Combat, Time {
                 strength == city.strength &&
                 level == city.level &&
                 isSieged == city.isSieged &&
-                Objects.equals(civilization, city.civilization) &&
                 Objects.equals(resources, city.resources) &&
                 dominantReligion == city.dominantReligion &&
                 Objects.equals(units, city.units) &&
