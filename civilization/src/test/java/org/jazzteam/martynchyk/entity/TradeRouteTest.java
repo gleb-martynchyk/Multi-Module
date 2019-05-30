@@ -2,10 +2,12 @@ package org.jazzteam.martynchyk.entity;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jazzteam.martynchyk.entity.trade.TradeRoute;
 import org.jazzteam.martynchyk.use_cases.BattleWithTheCityTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -44,10 +46,21 @@ public class TradeRouteTest {
     @Test
     public void testCreateTradeRoute() {
         tradeRoute = TradeRoute.createTradeRoute(cityA, cityB);
-        assertTrue(tradeRoute.getCityFirst().equals(cityA)&&tradeRoute.getCitySecond().equals(cityB));
+        assertTrue(cityA.getTradeRoutes().contains(tradeRoute));
+    }
+
+    @Test
+    public void testCreateTradeRouteOneDirectional() {
+        tradeRoute = TradeRoute.createTradeRoute(cityA, cityB);
+        assertTrue(cityA.getTradeRoutes().contains(tradeRoute)
+                && cityB.getTradeRoutes().isEmpty());
     }
 
     @Test
     public void testGetCityToTrade() {
+        tradeRoute = TradeRoute.createTradeRoute(cityA, cityB);
+        assertEquals(cityB, tradeRoute.getCityToTrade());
     }
+
+
 }

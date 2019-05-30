@@ -8,6 +8,9 @@ import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.resources.Resource;
 import org.jazzteam.martynchyk.entity.resources.implementation.Food;
 import org.jazzteam.martynchyk.entity.resources.implementation.Production;
+import org.jazzteam.martynchyk.entity.trade.TradeDeal;
+import org.jazzteam.martynchyk.entity.trade.TradeDealResult;
+import org.jazzteam.martynchyk.entity.trade.TradeRoute;
 import org.jazzteam.martynchyk.entity.units.Unit;
 import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
 
@@ -23,7 +26,8 @@ public class City implements Combat, Time {
     private double healthPoint;
     private int strength;
     private int level;
-    private Map<String, Resource> resources;
+    private int tradingCapacity;
+    private Map<Class, Resource> resources;
     private boolean isSieged;
     private ReligionType dominantReligion;
     private List<Unit> units;
@@ -34,13 +38,14 @@ public class City implements Combat, Time {
 
     public City(Civilization civilization) {
         this.resources = new HashMap<>();
-        resources.put(Food.class.getName(), new Food(10));
-        resources.put(Production.class.getName(), new Production(10));
+        resources.put(Food.class, new Food(10));
+        resources.put(Production.class, new Production(10));
         this.civilization = civilization;
         civilization.addCity(this);
         this.healthPoint = 100;
         this.strength = 40;
         this.level = 0;
+        this.tradingCapacity = 0;
         this.defence = 20;
         this.dominantReligion = null;
         this.isSieged = false;
@@ -76,19 +81,19 @@ public class City implements Combat, Time {
     }
 
     public Resource getFood() {
-        return resources.get(Food.class.getName());
+        return resources.get(Food.class);
     }
 
     public void setFood(Food food) {
-        this.resources.put(Food.class.getName(), food);
+        this.resources.put(Food.class, food);
     }
 
     public Resource getProduction() {
-        return resources.get(Production.class.getName());
+        return resources.get(Production.class);
     }
 
     public void setProduction(Production production) {
-        this.resources.put(Production.class.getName(), production);
+        this.resources.put(Production.class, production);
     }
 
     public void setCivilization(Civilization civilization) {
@@ -97,12 +102,26 @@ public class City implements Combat, Time {
         civilization.addCity(this);
     }
 
+    public boolean updateResourceAmount(Class resource, int amount) {
+        if (this.getResources().get(resource).getAmount() + amount >= 0) {
+            this.getResources().get(resource).setAmount(
+                    this.getResources().get(resource).getAmount()
+                            + amount
+            );
+            return true;
+        } else return false;
+    }
+
     @Override
     public void doTick() {
         besiegeUnits = besiegeUnits.stream()
                 .filter(combat -> !combat.isDead())
                 .collect(Collectors.toList());
-        //TODO setAmount должен возвращать boolean, чтобы не установить еду отрицательной
+
+//        TODO setAmount должен возвращать boolean, чтобы не установить еду отрицательной
+//        тут еще должин происходить пересчет уровня города, и количества торговых путей
+//        религии и тд
+
         getFood().setAmount(getFood().getAmount() - 2 * units.size());
         collectResources();
         if (resourcesAreEmpty()) {
@@ -110,27 +129,39 @@ public class City implements Combat, Time {
         }
     }
 
-    public TradeDeal exchangeResourcesThroughTradeRoute(TradeDeal tradeDeal) {
+    public TradeDealResult trade(TradeDeal tradeDeal) {
+        TradeDealResult tradeResult;
         TradeRoute tradeRoute = tradeRoutes.stream()
-                .filter(route -> route.getCityToTrade(this).agreeToExchange(tradeDeal))
-                //.filter(route -> route.agreeToExchange(tradeDeal))
+                .filter(route -> route.getCityToTrade().agreeToTrade(tradeDeal))
                 .findAny()
                 .orElse(null);
         if (tradeRoute != null) {
-            tradeRoute.getCityToTrade(this).exchange(tradeDeal);
+            tradeResult = tradeRoute.exchange(tradeDeal, this);
         } else {
-            tradeDeal.setStatus(TradeDeal.Status.REFUSED);
-            return tradeDeal;
+            tradeResult = new TradeDealResult();
+            tradeResult.setStatus(TradeDealResult.Status.REFUSED);
+            return tradeResult;
         }
-        return tradeDeal;
+        return tradeResult;
     }
 
-    public TradeDeal exchange(TradeDeal tradeDeal) {
+    public TradeDealResult getTradeTermsOfConsent(TradeDeal tradeDeal) {
         return null;
     }
 
-    public boolean agreeToExchange(TradeDeal tradeDeal) {
+    public boolean executeTradeDeal(TradeDeal tradeDeal, City cityToTrade) {
+        updateResourceAmount(tradeDeal.getResourceFrom(), -tradeDeal.getAmountFrom());
+        cityToTrade.updateResourceAmount(tradeDeal.getResourceFrom(), tradeDeal.getAmountFrom());
+        cityToTrade.updateResourceAmount(tradeDeal.getResourceTo(), -tradeDeal.getAmountTo());
+        updateResourceAmount(tradeDeal.getResourceTo(), +tradeDeal.getAmountTo());
         return false;
+    }
+
+    public boolean agreeToTrade(TradeDeal tradeDeal) {
+        int amountOfExcessToGive = getResources().get(tradeDeal.getResourceTo()).getExcess(this);
+        int amountOfExcessToTake = getResources().get(tradeDeal.getResourceFrom()).getExcess(this);
+        return amountOfExcessToGive * 0.3 >= tradeDeal.getAmountTo()
+                && amountOfExcessToTake * 0.3 <= tradeDeal.getAmountFrom();
     }
 
     public boolean requestResourcesFromCivilization() {
@@ -145,7 +176,7 @@ public class City implements Combat, Time {
                 .filter(resource -> resource.getValue().isEmpty())
                 .forEach(resource -> {
                     for (int i = 0; resource.getValue().isEmpty() && i < maxRequestCount; i++) {
-                        String resourceType = resource.getKey();
+                        Class resourceType = resource.getKey();
 
                         City supporter = findCityThatCanProvideResource(cities, resourceType);
 
@@ -157,7 +188,7 @@ public class City implements Combat, Time {
         return !resourcesAreEmpty();
     }
 
-    private City findCityThatCanProvideResource(List<City> cities, String resourceType) {
+    private City findCityThatCanProvideResource(List<City> cities, Class resourceType) {
         return cities.stream()
                 .filter(city -> city.getResources().get(resourceType).isInAbundance(city))
                 .max(Comparator.comparingInt(city -> city.getResources().get(resourceType).getAmount()))
@@ -165,7 +196,7 @@ public class City implements Combat, Time {
     }
 
 
-    public int requestResourceFromCity(City cityDonor, String resourceType) {
+    public int requestResourceFromCity(City cityDonor, Class resourceType) {
         int excess = (int) (0.3 * cityDonor.getResources().get(resourceType).getExcess(cityDonor));
         cityDonor.getResources().get(resourceType).setAmount(
                 cityDonor.getResources().get(resourceType).getAmount() - excess
