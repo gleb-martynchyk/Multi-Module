@@ -14,9 +14,10 @@
         <module>object-from-file</module>
         <module>bus-stops</module>
         <module>patterns</module>
-        <module>civilization</module>
         <module>webapp</module>
+        <module>civilization-model</module>
         <module>civilization-view</module>
+        <module>civilization-controller</module>
     </modules>
 
     <properties>
