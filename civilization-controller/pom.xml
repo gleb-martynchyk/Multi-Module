@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>civilization-controller</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>civilization-controller</name>
 
@@ -19,13 +19,13 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>9.0.19</version>
+            <version>9.0.21</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-dbcp</artifactId>
-            <version>7.0.55</version>
+            <version>9.0.21</version>
         </dependency>
 
         <dependency>

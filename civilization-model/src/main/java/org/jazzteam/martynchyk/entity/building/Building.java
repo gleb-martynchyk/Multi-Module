@@ -1,9 +1,21 @@
 package org.jazzteam.martynchyk.entity.building;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import javax.persistence.MappedSuperclass;
+
+@Getter
+@Setter
+@MappedSuperclass
 public abstract class Building {
-    private int slots;
+
     private int productionCost;
+
+    public Building() {
+    }
+
+    public Building(int productionCost) {
+        this.productionCost = productionCost;
+    }
 }

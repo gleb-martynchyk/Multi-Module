@@ -2,8 +2,10 @@ package org.jazzteam.martynchyk.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.jazzteam.martynchyk.entity.building.Improving;
-import org.jazzteam.martynchyk.entity.building.Producing;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.jazzteam.martynchyk.entity.building.ImprovingEntity;
+import org.jazzteam.martynchyk.entity.building.ProducingEntity;
 import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.resources.Resource;
 import org.jazzteam.martynchyk.entity.resources.implementation.Food;
@@ -35,21 +37,32 @@ public class City implements Combat, Time {
     private int strength;
     private int level;
     private int tradingCapacity;
-    @Column(name="city_resources")
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @Column(name = "city_resources")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Map<Class, Resource> resources;
+
     private boolean isSieged;
+
     @Transient
     private ReligionType dominantReligion;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
     private List<Unit> units;
+
     @Transient
     private List<Combat> besiegeUnits;
-    @Transient
-    private List<Improving> improvingBuildings;
-    @Transient
-    private List<Producing> producingBuildings;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<ImprovingEntity> improvingBuildings;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<ProducingEntity> producingBuildings;
+
+    //@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Transient
     private Set<TradeRoute> tradeRoutes;
 
@@ -266,21 +279,21 @@ public class City implements Combat, Time {
         tradeRoutes.remove(route);
     }
 
-    public void addImprovingBuildings(Improving improvingBuilding) {
+    public void addImprovingBuildings(ImprovingEntity improvingBuilding) {
         improvingBuilding.improveAttribute(this);
         improvingBuildings.add(improvingBuilding);
     }
 
-    public void removeImprovingBuildings(Improving improvingBuilding) {
+    public void removeImprovingBuildings(ImprovingEntity improvingBuilding) {
         improvingBuilding.afterRemoving(this);
         improvingBuildings.remove(improvingBuilding);
     }
 
-    public void addProducingBuildings(Producing producingBuilding) {
+    public void addProducingBuildings(ProducingEntity producingBuilding) {
         producingBuildings.add(producingBuilding);
     }
 
-    public void removeProducingBuildings(Producing producingBuilding) {
+    public void removeProducingBuildings(ProducingEntity producingBuilding) {
         producingBuildings.remove(producingBuilding);
     }
 

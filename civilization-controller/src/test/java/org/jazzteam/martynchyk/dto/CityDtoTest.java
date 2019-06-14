@@ -28,6 +28,7 @@ public class CityDtoTest {
     public void testCityEntityToCityDto() {
         CityDto cityDto = new CityDto(moscow);
 
+        assertEquals(cityDto.getId(), moscow.getId());
         assertEquals(cityDto.getName(), moscow.getName());
         assertEquals(cityDto.getCivilization(), moscow.getCivilization());
         assertEquals(cityDto.getResources(), moscow.getResources());

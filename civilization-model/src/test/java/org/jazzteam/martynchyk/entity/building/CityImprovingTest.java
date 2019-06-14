@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.Barrack;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.DefensiveWall;
 import org.jazzteam.martynchyk.usecases.BattleWithTheCityTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -41,7 +43,7 @@ public class CityImprovingTest {
     @Test
     public void isStrengthDecreaseWhenBarrackRemoved() {
         int strengthExpected = city.getStrength();
-        Improving barrack = new Barrack();
+        ImprovingEntity barrack = new Barrack();
         city.addImprovingBuildings(barrack);
         city.removeImprovingBuildings(barrack);
         int strengthActual = city.getStrength();
@@ -51,7 +53,7 @@ public class CityImprovingTest {
     @Test
     public void isDefenseDecreaseWhenWallRemoved() {
         double defenceExpected = city.getDefence();
-        Improving wall = new DefensiveWall();
+        ImprovingEntity wall = new DefensiveWall();
         city.addImprovingBuildings(wall);
         city.removeImprovingBuildings(wall);
         double defenceActual = city.getDefence();

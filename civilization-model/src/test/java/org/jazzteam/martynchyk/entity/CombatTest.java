@@ -1,6 +1,6 @@
 package org.jazzteam.martynchyk.entity;
 
-import org.jazzteam.martynchyk.entity.building.DefensiveWall;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.DefensiveWall;
 import org.jazzteam.martynchyk.entity.units.military.Archer;
 import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
 import org.jazzteam.martynchyk.entity.units.military.Warrior;

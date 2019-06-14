@@ -4,6 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.Barrack;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.DefensiveWall;
+import org.jazzteam.martynchyk.entity.building.providing_implementations.Farm;
+import org.jazzteam.martynchyk.entity.building.providing_implementations.Mine;
+import org.jazzteam.martynchyk.entity.building.providing_implementations.Temple;
 import org.jazzteam.martynchyk.usecases.BattleWithTheCityTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,7 +52,7 @@ public class CityBuilding {
 
     @Test
     public void areBuildingsRemovedOneElement() {
-        Producing farm = new Farm();
+        ProducingEntity farm = new Farm();
         city.addProducingBuildings(farm);
         city.removeProducingBuildings(farm);
         assertTrue(city.getProducingBuildings().isEmpty());
@@ -55,8 +60,8 @@ public class CityBuilding {
 
     @Test
     public void areBuildingsRemovedManyElements() {
-        Producing farm = new Farm();
-        Producing mine = new Mine();
+        ProducingEntity farm = new Farm();
+        ProducingEntity mine = new Mine();
         city.addProducingBuildings(farm);
         city.addProducingBuildings(mine);
         city.removeProducingBuildings(farm);

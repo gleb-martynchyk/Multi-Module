@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
 import org.jazzteam.martynchyk.entity.Combat;
-import org.jazzteam.martynchyk.entity.building.DefensiveWall;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.DefensiveWall;
 import org.jazzteam.martynchyk.entity.units.military.Archer;
 import org.jazzteam.martynchyk.entity.units.military.Warrior;
 import org.jazzteam.martynchyk.service.CombatService;

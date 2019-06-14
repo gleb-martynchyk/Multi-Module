@@ -1,13 +1,18 @@
-package org.jazzteam.martynchyk.entity.building;
+package org.jazzteam.martynchyk.entity.building.providing_implementations;
 
 import lombok.Getter;
 import org.jazzteam.martynchyk.entity.City;
+import org.jazzteam.martynchyk.entity.building.ProducingEntity;
+
+import javax.persistence.Entity;
 
 @Getter
-public class Market extends Building implements Producing {
+@Entity
+public class Market extends ProducingEntity {
     private static final int productionQuantity = 5;
 
     public Market() {
+        super(0,70);
     }
 
     @Override

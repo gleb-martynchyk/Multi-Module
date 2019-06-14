@@ -21,7 +21,7 @@ public class Civilization implements Time {
     private int science;
     @OneToOne
     private City capital;
-    @OneToMany(mappedBy = "civilization", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "civilization", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<City> cities;
     @Transient
     private ReligionType dominantReligios;

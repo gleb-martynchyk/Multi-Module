@@ -4,12 +4,16 @@ import org.jazzteam.martynchyk.config.CityDaoConfig;
 import org.jazzteam.martynchyk.config.HibernateXMLConfig;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.Barrack;
+import org.jazzteam.martynchyk.entity.building.improving_implementations.DefensiveWall;
+import org.jazzteam.martynchyk.entity.building.providing_implementations.*;
 import org.jazzteam.martynchyk.entity.resources.implementation.Gold;
 import org.jazzteam.martynchyk.entity.units.Trader;
 import org.jazzteam.martynchyk.entity.units.Worker;
 import org.jazzteam.martynchyk.entity.units.military.HorseMan;
 import org.jazzteam.martynchyk.entity.units.military.Scout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -50,6 +54,34 @@ public class CityDaoTest extends AbstractTransactionalTestNGSpringContextTests {
         city.getResources().put(Gold.class, new Gold(111));
 
         assertEquals(cityDao.find(city.getId()), city);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testCreateAndFindCityWithBuildings() {
+        City city = new City(civilization);
+        cityDao.create(city);
+
+        city.addUnit(new Trader());
+        city.addUnit(new Worker());
+        city.addUnit(new Scout());
+        city.addUnit(new HorseMan());
+
+        city.addImprovingBuildings(new Barrack());
+        city.addImprovingBuildings(new Barrack());
+        city.addImprovingBuildings(new DefensiveWall());
+
+        city.addProducingBuildings(new Farm());
+        city.addProducingBuildings(new Temple());
+        city.addProducingBuildings(new Market());
+        city.addProducingBuildings(new Mine());
+        city.addProducingBuildings(new Campus());
+
+
+        city.getResources().put(Gold.class, new Gold(111));
+        City actualCity = cityDao.find(city.getId());
+
+        assertEquals(actualCity, city);
     }
 
     @Test

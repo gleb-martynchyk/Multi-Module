@@ -5,10 +5,12 @@ import lombok.Setter;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
 import org.jazzteam.martynchyk.entity.Combat;
-import org.jazzteam.martynchyk.entity.building.Improving;
-import org.jazzteam.martynchyk.entity.building.Producing;
+import org.jazzteam.martynchyk.entity.building.ImprovingEntity;
+import org.jazzteam.martynchyk.entity.building.ProducingEntity;
 import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.resources.Resource;
+import org.jazzteam.martynchyk.entity.resources.implementation.Food;
+import org.jazzteam.martynchyk.entity.resources.implementation.Production;
 import org.jazzteam.martynchyk.entity.trade.TradeRoute;
 import org.jazzteam.martynchyk.entity.units.Unit;
 
@@ -19,6 +21,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class CityDto {
+    private long id;
     private String name;
     private Civilization civilization;
     private double defence;
@@ -31,8 +34,8 @@ public class CityDto {
     private ReligionType dominantReligion;
     private List<Unit> units;
     private List<Combat> besiegeUnits;
-    private List<Improving> improvingBuildings;
-    private List<Producing> producingBuildings;
+    private List<ImprovingEntity> improvingBuildings;
+    private List<ProducingEntity> producingBuildings;
     private Set<TradeRoute> tradeRoutes;
 
     public CityDto() {
@@ -40,6 +43,7 @@ public class CityDto {
 
     public CityDto(City city) {
         if (city != null) {
+            this.id = city.getId();
             this.civilization = city.getCivilization();
             setName(city.getName());
             setDefence(city.getDefence());
@@ -76,4 +80,13 @@ public class CityDto {
         city.setTradeRoutes(getTradeRoutes());
         return city;
     }
+
+    public int getFood() {
+        return resources.get(Food.class).getAmount();
+    }
+
+    public int getProduction() {
+        return resources.get(Production.class).getAmount();
+    }
+
 }

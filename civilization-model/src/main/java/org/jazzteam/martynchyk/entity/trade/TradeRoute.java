@@ -4,10 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jazzteam.martynchyk.entity.City;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
+@Entity
 public class TradeRoute {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
+    @Transient
     private City cityToTrade;
 
     public TradeRoute(City cityToTrade) {

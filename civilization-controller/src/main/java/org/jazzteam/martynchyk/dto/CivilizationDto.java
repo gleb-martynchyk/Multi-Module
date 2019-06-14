@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class CivilizationDto {
+    private long id;
     private String name;
     private int faith;
     private int gold;
@@ -25,6 +26,7 @@ public class CivilizationDto {
     }
 
     public CivilizationDto(Civilization civilization) {
+        this.id = civilization.getId();
         this.name = civilization.getName();
         this.faith = civilization.getFaith();
         this.gold = civilization.getGold();
@@ -39,6 +41,7 @@ public class CivilizationDto {
 
     public Civilization convertToEntity() {
         Civilization civilization = new Civilization();
+        civilization.setId(id);
         civilization.setName(getName());
         civilization.setFaith(getGold());
         civilization.setScience(getScience());

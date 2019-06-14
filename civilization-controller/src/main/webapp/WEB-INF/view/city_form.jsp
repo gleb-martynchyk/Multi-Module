@@ -15,10 +15,6 @@
 
         <h3>Civilizations</h3>
         <br>
-        <c:if test="${error != ''}">
-            <h3 align="center">${error} </h3>
-        </c:if>
-        <br>
 
         <ul class="list-group">
             <table class="table table-hover table-bordered w-auto">
@@ -35,16 +31,15 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${civilizationsList}" var="item">
-                    <tr>
-                        <td class="align-middle">${item.id}</td>
-                        <td>${item.name}</td>
-                        <td>${item.gold}</td>
-                        <td>${item.capital.name}</td>
-                        <td>${fn:length(item.cities)}</td>
-                        <td>
-                            <a class="btn btn-outline-primary btn-sm my-0"
-                               href="civilizations/${item.id}" role="button">View</a>
-                        </td>
+                    <td height="50px">
+                    <td class="align-middle">${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.gold}</td>
+                    <td>${item.capital.name}</td>
+                    <td>
+                        <a class="btn btn-outline-primary btn-sm my-0"
+                           href="civilizations/${item.id}" role="button">View</a>
+                    </td>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -1,13 +1,18 @@
-package org.jazzteam.martynchyk.entity.building;
+package org.jazzteam.martynchyk.entity.building.providing_implementations;
 
 import lombok.Getter;
 import org.jazzteam.martynchyk.entity.City;
+import org.jazzteam.martynchyk.entity.building.ProducingEntity;
+
+import javax.persistence.Entity;
 
 @Getter
-public class Mine extends Building implements Producing {
+@Entity
+public class Mine extends ProducingEntity {
     private static final int productionQuantity = 5;
 
     public Mine() {
+        super(0, 50);
     }
 
     @Override

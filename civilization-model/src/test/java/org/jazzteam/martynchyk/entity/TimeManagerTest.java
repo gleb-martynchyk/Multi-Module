@@ -2,7 +2,7 @@ package org.jazzteam.martynchyk.entity;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jazzteam.martynchyk.entity.building.Farm;
+import org.jazzteam.martynchyk.entity.building.providing_implementations.Farm;
 import org.jazzteam.martynchyk.entity.units.Worker;
 import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
 import org.jazzteam.martynchyk.entity.units.military.Warrior;

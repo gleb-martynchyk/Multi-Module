@@ -25,6 +25,7 @@ public class CivilizationDtoTest {
     @Test
     public void testCivilizationEntityToCivilizationDto() {
         CivilizationDto russiaDto = new CivilizationDto(russia);
+        assertEquals(russiaDto.getId(), russia.getId());
         assertEquals(russiaDto.getName(), russia.getName());
         assertEquals(russiaDto.getCapital().convertToEntity(), russia.getCapital());
         assertEquals((russiaDto.getGold()), russia.getGold());

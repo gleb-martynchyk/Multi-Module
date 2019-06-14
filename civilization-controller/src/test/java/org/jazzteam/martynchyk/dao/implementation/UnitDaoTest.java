@@ -61,8 +61,6 @@ public class UnitDaoTest extends AbstractTransactionalTestNGSpringContextTests {
 
 
     @Test
-    @Rollback
-    @Transactional
     public void testCreateUnit() {
         Settler expectedSettler = new Settler();
         unitDao.create(expectedSettler);
@@ -71,8 +69,6 @@ public class UnitDaoTest extends AbstractTransactionalTestNGSpringContextTests {
 
 
     @Test
-    @Rollback
-    @Transactional
     public void testFindAllUnits() {
         Unit settlerA = new Settler();
         Unit settlerB = new Settler();

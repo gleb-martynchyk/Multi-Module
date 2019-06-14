@@ -1,12 +1,19 @@
-package org.jazzteam.martynchyk.entity.building;
+package org.jazzteam.martynchyk.entity.building.improving_implementations;
 
+import lombok.Data;
 import org.jazzteam.martynchyk.entity.City;
+import org.jazzteam.martynchyk.entity.building.ImprovingEntity;
 
-public class DefensiveWall extends Building implements Improving {
+import javax.persistence.Entity;
+
+@Data
+@Entity
+public class DefensiveWall extends ImprovingEntity {
 
     private static final int defenseImprovePoint = 10;
 
     public DefensiveWall() {
+        super(60);
     }
 
     @Override

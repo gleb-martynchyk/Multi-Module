@@ -11,11 +11,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CivilizationExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler
-    protected ResponseEntity<Object> handleNullPointerException(NullPointerException exc, WebRequest request) {
-        String bodyOfResponse = "There is no such content";
-        return handleExceptionInternal(exc, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
+//    @ExceptionHandler
+//    protected ResponseEntity<Object> handleNullPointerException(NullPointerException exc, WebRequest request) {
+//        String bodyOfResponse = "There is no such content";
+//        return handleExceptionInternal(exc, bodyOfResponse,
+//                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+//    }
 
 }
