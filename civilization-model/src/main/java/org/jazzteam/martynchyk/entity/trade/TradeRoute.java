@@ -14,6 +14,7 @@ public class TradeRoute {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @OneToOne
     @Transient
     private City cityToTrade;
 
