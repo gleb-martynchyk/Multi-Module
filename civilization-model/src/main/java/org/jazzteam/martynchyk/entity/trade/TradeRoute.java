@@ -15,7 +15,7 @@ public class TradeRoute {
     private long id;
 
     @OneToOne
-    @Transient
+    //@JoinColumn(name = "city_to_trade_id")
     private City cityToTrade;
 
     public TradeRoute(City cityToTrade) {

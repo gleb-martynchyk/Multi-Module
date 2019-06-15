@@ -62,8 +62,7 @@ public class City implements Combat, Time {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<ProducingEntity> producingBuildings;
 
-    //@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Transient
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<TradeRoute> tradeRoutes;
 
     public City() {
@@ -319,22 +318,25 @@ public class City implements Combat, Time {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city = (City) o;
-        return Double.compare(city.defence, defence) == 0 &&
+        return id == city.id &&
+                Double.compare(city.defence, defence) == 0 &&
                 Double.compare(city.healthPoint, healthPoint) == 0 &&
                 strength == city.strength &&
                 level == city.level &&
+                tradingCapacity == city.tradingCapacity &&
                 isSieged == city.isSieged &&
-                Objects.equals(resources, city.resources) &&
+                resources.equals(city.resources) &&
                 dominantReligion == city.dominantReligion &&
-                Objects.equals(units, city.units) &&
-                Objects.equals(besiegeUnits, city.besiegeUnits) &&
-                Objects.equals(improvingBuildings, city.improvingBuildings) &&
-                Objects.equals(producingBuildings, city.producingBuildings);
+                units.equals(city.units) &&
+                besiegeUnits.equals(city.besiegeUnits) &&
+                improvingBuildings.equals(city.improvingBuildings) &&
+                producingBuildings.equals(city.producingBuildings) &&
+                tradeRoutes.equals(city.tradeRoutes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(civilization, defence, healthPoint, strength, level, resources, isSieged, dominantReligion, units, besiegeUnits, improvingBuildings, producingBuildings);
+        return Objects.hash(id, name, civilization, defence, healthPoint, strength, level, tradingCapacity, resources, isSieged, dominantReligion, units, besiegeUnits, improvingBuildings, producingBuildings, tradeRoutes);
     }
 
     @Override

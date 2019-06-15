@@ -8,6 +8,7 @@ import org.jazzteam.martynchyk.entity.building.improving_implementations.Barrack
 import org.jazzteam.martynchyk.entity.building.improving_implementations.DefensiveWall;
 import org.jazzteam.martynchyk.entity.building.providing_implementations.*;
 import org.jazzteam.martynchyk.entity.resources.implementation.Gold;
+import org.jazzteam.martynchyk.entity.trade.TradeRoute;
 import org.jazzteam.martynchyk.entity.units.Trader;
 import org.jazzteam.martynchyk.entity.units.Worker;
 import org.jazzteam.martynchyk.entity.units.military.HorseMan;
@@ -77,11 +78,37 @@ public class CityDaoTest extends AbstractTransactionalTestNGSpringContextTests {
         city.addProducingBuildings(new Mine());
         city.addProducingBuildings(new Campus());
 
-
         city.getResources().put(Gold.class, new Gold(111));
         City actualCity = cityDao.find(city.getId());
 
         assertEquals(actualCity, city);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testCreateAndFindCityWithTradeRoutes() {
+        Civilization civilizationA = new Civilization();
+        Civilization civilizationB = new Civilization();
+
+        City cityA = new City(civilizationA);
+        City cityB = new City(civilizationB);
+        cityA.setName("cityA");
+        cityB.setName("cityB");
+
+        civilizationA.addCity(cityA);
+        civilizationB.addCity(cityB);
+
+        TradeRoute tradeRoute = TradeRoute.createTradeRoute(cityA, cityB);
+
+        civilizationDao.create(civilizationB);
+        civilizationDao.create(civilizationA);
+        cityDao.create(cityA);
+        cityDao.create(cityB);
+
+        City actualCity = cityDao.find(cityA.getId());
+
+        assertEquals(actualCity, cityA);
+        assertTrue(actualCity.getTradeRoutes().contains(tradeRoute));
     }
 
     @Test
