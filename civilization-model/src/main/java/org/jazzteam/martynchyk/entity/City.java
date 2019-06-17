@@ -143,7 +143,9 @@ public class City implements Combat, Time {
     }
 
     public void setCivilization(Civilization civilization) {
-        this.civilization.removeCity(this);
+        if (civilization.getCities().size() != 0) {
+            this.civilization.removeCity(this);
+        }
         this.civilization = civilization;
         civilization.addCity(this);
     }

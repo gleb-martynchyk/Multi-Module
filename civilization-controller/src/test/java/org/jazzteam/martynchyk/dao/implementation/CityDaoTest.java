@@ -58,7 +58,7 @@ public class CityDaoTest extends AbstractTransactionalTestNGSpringContextTests {
     }
 
     @Test
-    @Rollback(false)
+//    @Rollback(false)
     public void testCreateAndFindCityWithBuildings() {
         City city = new City(civilization);
         cityDao.create(city);
@@ -85,7 +85,7 @@ public class CityDaoTest extends AbstractTransactionalTestNGSpringContextTests {
     }
 
     @Test
-    @Rollback(false)
+//    @Rollback(false)
     public void testCreateAndFindCityWithTradeRoutes() {
         Civilization civilizationA = new Civilization();
         Civilization civilizationB = new Civilization();

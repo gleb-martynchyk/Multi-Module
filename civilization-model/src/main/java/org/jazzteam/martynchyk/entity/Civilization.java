@@ -15,16 +15,17 @@ public class Civilization implements Time {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(unique = true)
     private String name;
     private int faith;
     private int gold;
     private int science;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private City capital;
     @OneToMany(mappedBy = "civilization", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<City> cities;
     @Transient
-    private ReligionType dominantReligios;
+    private ReligionType dominantReligion;
     @Transient
     private Tree scienceTree;
 

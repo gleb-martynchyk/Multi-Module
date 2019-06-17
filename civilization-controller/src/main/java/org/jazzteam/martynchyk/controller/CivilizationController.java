@@ -4,17 +4,18 @@ import org.jazzteam.martynchyk.dao.implementation.CivilizationDao;
 import org.jazzteam.martynchyk.dto.CivilizationDto;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
+import org.jazzteam.martynchyk.entity.resources.implementation.Production;
 import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Trader;
 import org.jazzteam.martynchyk.entity.units.Worker;
 import org.jazzteam.martynchyk.entity.units.military.Scout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,9 +31,29 @@ public class CivilizationController {
         this.civilizationDao = civilizationDao;
     }
 
-    @GetMapping("/list")
-    public String showList() {
-        return "list";
+    @GetMapping("/form")
+    public String showCivilizationForm(Model model) {
+        model.addAttribute("civilization", new CivilizationDto());
+        return "civilization_form";
+    }
+
+    @PostMapping()
+    public String createCivilization(@ModelAttribute("civilization") Civilization civilization) {
+        if (civilization.getCapital() != null) {
+            civilization.getCapital().setCivilization(civilization);
+        }
+        civilizationDao.create(civilization);
+        return "redirect:civilizations/";
+    }
+
+    @GetMapping("/{id}")
+    public String getCivilizationById(@PathVariable Long id, Model model) {
+        Civilization civilization = civilizationDao.find(id);
+        if (civilization == null) {
+            model.addAttribute("error", "ошибка");
+        }
+        model.addAttribute("civilization", new CivilizationDto(civilization));
+        return "civilization";
     }
 
     @GetMapping()
@@ -48,29 +69,36 @@ public class CivilizationController {
                 .map(CivilizationDto::new)
                 .collect(Collectors.toList());
 
-        //model.addAttribute("error", "null");
         model.addAttribute("civilizationsList", civilizationsDto);
         return "civilizations";
     }
 
-
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public String getCivilizationById(@PathVariable Long id, Model model) {
-        Civilization civilization = civilizationDao.find(id);
-        if (civilization == null) {
-            model.addAttribute("error", "ошибка");
-        }
-        model.addAttribute("civilization", new CivilizationDto(civilization));
-        return "civilization";
+    @DeleteMapping("/{id}")
+    public String deleteCivilizationById(@PathVariable("id") Long id) {
+        civilizationDao.delete(id);
+        return "redirect:/civilizations/";
     }
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public class ResourceNotFoundException extends RuntimeException {
+    @GetMapping("/{id}/dotick")
+    public String doTick(@PathVariable Long id) {
+        List<Civilization> civilizationList = new ArrayList<>();
+        civilizationList.add(civilizationDao.find(id));
+        civilizationList.get(0).getCities().get(0).getResources().get(Production.class).setAmount(
+                civilizationList.get(0).getCities().get(0).getResources().get(Production.class).getAmount() + 1
+        );
+//        TimeManager timeManager = new TimeManager(civilizationList);
+//        timeManager.doTick();
+        return "redirect:/civilizations/" + id;
     }
+
+//    @RequestMapping(value = "/processForm", method = RequestMethod.POST)
+//    public String processForm(@RequestParam("message") final String message, final Model model) {
+//        model.addAttribute("message", message);
+//        return "message";
+//    }
 
     @GetMapping("/init")
-    public void initializeDatabase() {
+    public String initializeDatabase() {
         Civilization expectedCivilization = new Civilization();
         expectedCivilization.setName("Russia");
 
@@ -92,6 +120,7 @@ public class CivilizationController {
         samara.addUnit(new Scout());
 
         civilizationDao.create(expectedCivilization);
+        return "redirect:/civilizations/";
     }
 
 }

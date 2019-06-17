@@ -15,8 +15,10 @@ public class TradeRoute {
     private long id;
 
     @OneToOne
-    //@JoinColumn(name = "city_to_trade_id")
     private City cityToTrade;
+
+    public TradeRoute() {
+    }
 
     public TradeRoute(City cityToTrade) {
         this.cityToTrade = cityToTrade;

@@ -9,6 +9,7 @@ import org.jazzteam.martynchyk.entity.units.Trader;
 import org.jazzteam.martynchyk.entity.units.Worker;
 import org.jazzteam.martynchyk.entity.units.military.Scout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
