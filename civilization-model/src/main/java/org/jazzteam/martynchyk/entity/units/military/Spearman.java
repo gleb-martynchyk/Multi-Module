@@ -3,6 +3,9 @@ package org.jazzteam.martynchyk.entity.units.military;
 import org.jazzteam.martynchyk.entity.Combat;
 import org.jazzteam.martynchyk.entity.enums.ResourceType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Spearman extends BaseWarrior {
     public Spearman() {
         super(10, 10, ResourceType.PRODUCTION,

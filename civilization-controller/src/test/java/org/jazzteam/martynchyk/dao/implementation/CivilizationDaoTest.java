@@ -15,6 +15,7 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.annotations.Test;
 
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,17 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
         assertEquals(civilizationDao.find(expectedCivilization.getId()), expectedCivilization);
     }
 
+    @Test(expectedExceptions = PersistenceException.class)
+    public void testCreateCivilizationWithDuplicateName() {
+        Civilization russia = new Civilization();
+        russia.setName("Russia");
+        civilizationDao.create(russia);
+
+        Civilization russiaDuplicate = new Civilization();
+        russiaDuplicate.setName("Russia");
+        civilizationDao.create(russiaDuplicate);
+    }
+
     @Test
 //    @Rollback(false)
     public void testCreateCivilizationWithAllRelations() {
@@ -58,7 +70,6 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
         expectedCivilization.addCity(moscow);
         expectedCivilization.setCapital(moscow);
 
-
         City samara = new City(expectedCivilization);
         samara.setName("Samara");
         expectedCivilization.addCity(samara);
@@ -66,13 +77,50 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
         moscow.addUnit(new Settler());
         moscow.addUnit(new Trader());
 
-
         samara.addUnit(new Trader());
         samara.addUnit(new Worker());
         samara.addUnit(new Scout());
 
         civilizationDao.create(expectedCivilization);
         assertEquals(civilizationDao.find(expectedCivilization.getId()), expectedCivilization);
+    }
+
+    @Test
+//    @Rollback(false)
+    public void testDoTickRemovingUnitFromCityWhenCalled() {
+        Civilization expectedCivilization = new Civilization();
+        expectedCivilization.setName("Russia");
+
+        City moscow = new City(expectedCivilization);
+        moscow.setName("Moscow");
+        expectedCivilization.addCity(moscow);
+        expectedCivilization.setCapital(moscow);
+
+        City samara = new City(expectedCivilization);
+        samara.setName("Samara");
+        expectedCivilization.addCity(samara);
+
+        moscow.addUnit(new Settler());
+        moscow.addUnit(new Trader());
+        moscow.addUnit(new Trader());
+        samara.addUnit(new Worker());
+        samara.addUnit(new Scout());
+        samara.addUnit(new Scout());
+
+        civilizationDao.create(expectedCivilization);
+
+        Civilization civilization = civilizationDao.find(expectedCivilization.getId());
+        int unitsCountExpected = civilization.getCities().get(0).getUnits().size() - 1;
+
+        civilization.getCities().get(0).getUnits().get(0).setHealthPoint(-20);
+
+        civilization.doTick();
+        civilizationDao.update(civilization);
+
+        Civilization actualCivilization = civilizationDao.find(expectedCivilization.getId());
+        int unitsCountActual = actualCivilization.getCities().get(0).getUnits().size();
+
+        assertEquals(unitsCountActual, unitsCountExpected);
     }
 
     @Test

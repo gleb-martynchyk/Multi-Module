@@ -9,12 +9,13 @@ import org.jazzteam.martynchyk.entity.building.improving_implementations.Defensi
 import org.jazzteam.martynchyk.entity.building.providing_implementations.*;
 import org.jazzteam.martynchyk.entity.resources.implementation.Gold;
 import org.jazzteam.martynchyk.entity.trade.TradeRoute;
+import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Trader;
+import org.jazzteam.martynchyk.entity.units.Unit;
 import org.jazzteam.martynchyk.entity.units.Worker;
 import org.jazzteam.martynchyk.entity.units.military.HorseMan;
 import org.jazzteam.martynchyk.entity.units.military.Scout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -49,12 +50,39 @@ public class CityDaoTest extends AbstractTransactionalTestNGSpringContextTests {
         cityDao.create(city);
         city.addUnit(new Trader());
         city.addUnit(new Worker());
+        city.addUnit(new Settler());
         city.addUnit(new Scout());
         city.addUnit(new HorseMan());
 
         city.getResources().put(Gold.class, new Gold(111));
-
+        City actualCity = cityDao.find(city.getId());
         assertEquals(cityDao.find(city.getId()), city);
+        assertEquals(actualCity.getUnits().size(),city.getUnits().size());
+    }
+
+    @Test
+    public void testCascadeRemoveUnitsInCity() {
+        City city = new City(civilization);
+
+        List<Unit> units = new ArrayList();
+        units.add(new Trader());
+        units.add(new Worker());
+        units.add(new Settler());
+        units.add(new Scout());
+        units.add(new HorseMan());
+
+        for (Unit unit : units) {
+            city.addUnit(unit);
+        }
+        cityDao.create(city);
+
+        City cityFromDb = cityDao.find(city.getId());
+
+        cityFromDb.getUnits().get(1).setHealthPoint(-50);
+        cityFromDb.doTick();
+        cityDao.update(cityFromDb);
+
+        assertEquals(cityDao.find(city.getId()).getUnits().size(), units.size() - 1);
     }
 
     @Test

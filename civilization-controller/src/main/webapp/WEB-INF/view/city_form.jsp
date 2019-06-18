@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" disabled>Create</button>
         </form:form>
 
     </div>

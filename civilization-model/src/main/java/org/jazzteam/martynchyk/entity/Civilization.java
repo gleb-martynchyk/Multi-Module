@@ -38,8 +38,9 @@ public class Civilization implements Time {
 
     @Override
     public void doTick() {
-        cities.stream()
-                .forEach(city -> city.doTick());
+        for (int i=0;i<cities.size();i++){
+            cities.get(i).doTick();
+        }
     }
 
     public void addCity(City city) {

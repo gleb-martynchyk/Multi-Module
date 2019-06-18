@@ -17,7 +17,7 @@ public abstract class Unit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Transient
+    @ManyToOne
     private City city;
     private int costInGold;
     private int costInResources;
@@ -53,5 +53,9 @@ public abstract class Unit {
     @Override
     public int hashCode() {
         return Objects.hash(id, costInGold, costInResources, resourceType, healthPoint, movement);
+    }
+
+    public boolean isDead() {
+        return this.getHealthPoint() <= 0;
     }
 }

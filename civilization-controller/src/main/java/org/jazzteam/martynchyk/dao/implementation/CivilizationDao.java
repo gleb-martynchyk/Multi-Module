@@ -22,14 +22,13 @@ public class CivilizationDao implements BaseDao<Civilization> {
     @Override
     public Civilization create(Civilization civilization) {
         Session session = getSession();
-        session.save(civilization);
+        session.persist(civilization);
         session.flush();
         return civilization;
     }
-
     @Override
     public Civilization find(long id) {
-        return getSession().find(Civilization.class, id);
+        return getSession().get(Civilization.class, id);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class CivilizationDao implements BaseDao<Civilization> {
     @Override
     public Civilization update(Civilization civilization) {
         Session session = getSession();
-        session.update(civilization);
+        session.merge(civilization);
         session.flush();
         return civilization;
     }

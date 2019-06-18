@@ -22,14 +22,14 @@ public class CityDao implements BaseDao<City> {
     @Override
     public City create(City city) {
         Session session = getSession();
-        session.save(city);
+        session.persist(city);
         session.flush();
         return city;
     }
 
     @Override
     public City find(long id) {
-        return getSession().find(City.class, id);
+        return getSession().get(City.class, id);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CityDao implements BaseDao<City> {
     @Override
     public City update(City city) {
         Session session = getSession();
-        session.update(city);
+        session.merge(city);
         session.flush();
         return city;
     }

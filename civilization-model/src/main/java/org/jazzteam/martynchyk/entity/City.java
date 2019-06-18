@@ -18,7 +18,6 @@ import org.jazzteam.martynchyk.entity.units.military.BaseWarrior;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -47,8 +46,7 @@ public class City implements Combat, Time {
     @Transient
     private ReligionType dominantReligion;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-
+    @OneToMany(mappedBy = "city", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Unit> units;
 
     @Transient
@@ -162,15 +160,18 @@ public class City implements Combat, Time {
 
     @Override
     public void doTick() {
-        besiegeUnits = besiegeUnits.stream()
-                .filter(combat -> !combat.isDead())
-                .collect(Collectors.toList());
+        besiegeUnits.removeIf(Combat::isDead);
+        units.removeIf(Unit::isDead);
 
-//        TODO setAmount должен возвращать boolean, чтобы не установить еду отрицательной
-//        тут еще должин происходить пересчет уровня города, и количества торговых путей
-//        религии и тд
 
-        getFood().setAmount(getFood().getAmount() - 2 * units.size());
+        int nextFoodAmount = getFood().getAmount() - 2 * units.size();
+        if (nextFoodAmount < 0) {
+            //health points reduces with a lack of food
+            units.forEach(unit -> unit.setHealthPoint(unit.getHealthPoint() - 1));
+        } else {
+            this.resources.get(Food.class).setAmount(nextFoodAmount);
+        }
+
         collectResources();
         if (resourcesAreEmpty()) {
             requestResourcesFromCivilization();

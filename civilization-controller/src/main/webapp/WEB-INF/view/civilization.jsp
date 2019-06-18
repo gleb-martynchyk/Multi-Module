@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
+<%--    <script src="WEB-INF/view/civilization.js" type="text/javascript"></script>--%>
+
 </head>
 <body>
 <div class="container mt-5">
@@ -69,9 +71,9 @@
                                     <div class="col-sm-2">
                                             ${fn:length(item.units)}
                                     </div>
-                                    <div class="col-sm-2">
-                                        <a href="civilizations/${civilization.id}">+</a>
-                                    </div>
+<%--                                    <div class="col-sm-2">--%>
+<%--                                        <a href="civilizations/${civilization.id}" >+</a>--%>
+<%--                                    </div>--%>
                                 </div>
                             </td>
                             <td>${item.strength}</td>
@@ -94,9 +96,20 @@
                href="/civilizations" role="button">Civilizations list</a>
         </div>
         <div class="col-sm">
-            <form action="/civilizations/${civilization.id}/dotick" method="get">
-                <button type="submit" class="btn btn-primary ">Do Tick</button>
-            </form>
+                        <form action="/civilizations/${civilization.id}/nextstep" method="get">
+                            <button type="submit" class="btn btn-primary ">Do Tick</button>
+                        </form>
+<%--            <button id="buttonDelete" onclick="doTickRequest(`/civilizations/${civilization.id}/dotick`)">Do Tick2--%>
+<%--            </button>--%>
+<%--            <input type="button" id="button"  value="Do step"/>--%>
+            <script>
+                button.onclick = function () {
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.open( "GET", `/civilizations/${civilization.id}/nextstep`, false ); // false for synchronous request
+                    xmlHttp.send( null );
+                    location.reload();
+                };
+            </script>
             <%--            <a class="btn btn-primary"--%>
             <%--               href="/civilizations/${civilization.id}/dotick" role="button">Do Tick</a>--%>
         </div>

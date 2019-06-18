@@ -23,14 +23,14 @@ public class UnitDao implements BaseDao<Unit> {
     @Override
     public Unit create(Unit unit) {
         Session session = getSession();
-        session.save(unit);
+        session.persist(unit);
         session.flush();
         return unit;
     }
 
     @Override
     public Unit find(long id) {
-        return getSession().find(Unit.class, id);
+        return getSession().get(Unit.class, id);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class UnitDao implements BaseDao<Unit> {
     @Override
     public Unit update(Unit unit) {
         Session session = getSession();
-        session.update(unit);
+        session.merge(unit);
         session.flush();
         return unit;
     }

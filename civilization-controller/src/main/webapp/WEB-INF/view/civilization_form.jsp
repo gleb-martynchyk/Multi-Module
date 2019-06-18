@@ -16,7 +16,11 @@
 
         <h3>Creating Civilization</h3>
         <br>
-
+        <c:if test="${not empty error}">
+            <div class="alert alert-warning" role="alert">
+                ${error}
+            </div>
+        </c:if>
         <form:form method="POST"
                    action="/civilizations" modelAttribute="civilization">
             <div class="form-group">
