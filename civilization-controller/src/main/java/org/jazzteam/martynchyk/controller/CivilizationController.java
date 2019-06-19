@@ -4,12 +4,13 @@ import org.jazzteam.martynchyk.dao.implementation.CivilizationDao;
 import org.jazzteam.martynchyk.dto.CivilizationDto;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
+import org.jazzteam.martynchyk.entity.building.providing_implementations.Farm;
+import org.jazzteam.martynchyk.entity.building.providing_implementations.Mine;
 import org.jazzteam.martynchyk.entity.resources.implementation.Food;
 import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Trader;
 import org.jazzteam.martynchyk.entity.units.Worker;
 import org.jazzteam.martynchyk.entity.units.military.Archer;
-import org.jazzteam.martynchyk.entity.units.military.Scout;
 import org.jazzteam.martynchyk.entity.units.military.Spearman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -118,7 +119,7 @@ public class CivilizationController {
         samara.setName("Samara");
         expectedCivilization.addCity(samara);
 
-        moscow.getResources().get(Food.class).setAmount(50);
+        moscow.getResources().get(Food.class).setAmount(200);
         samara.getResources().get(Food.class).setAmount(50);
 
         moscow.addUnit(new Settler());
@@ -127,7 +128,9 @@ public class CivilizationController {
 
         samara.addUnit(new Archer());
         samara.addUnit(new Spearman());
-        samara.addUnit(new Scout());
+
+        moscow.addProducingBuildings(new Mine());
+        samara.addProducingBuildings(new Farm());
 
 
         civilizationDao.create(expectedCivilization);

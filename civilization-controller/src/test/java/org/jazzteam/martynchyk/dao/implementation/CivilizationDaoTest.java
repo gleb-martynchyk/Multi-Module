@@ -4,15 +4,19 @@ import org.jazzteam.martynchyk.config.CivilizationDaoConfig;
 import org.jazzteam.martynchyk.config.HibernateXMLConfig;
 import org.jazzteam.martynchyk.entity.City;
 import org.jazzteam.martynchyk.entity.Civilization;
+import org.jazzteam.martynchyk.entity.resources.implementation.Food;
 import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.entity.units.Trader;
 import org.jazzteam.martynchyk.entity.units.Worker;
+import org.jazzteam.martynchyk.entity.units.military.Archer;
 import org.jazzteam.martynchyk.entity.units.military.Scout;
+import org.jazzteam.martynchyk.entity.units.military.Spearman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import javax.persistence.PersistenceException;
@@ -61,7 +65,7 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
 
     @Test
 //    @Rollback(false)
-    public void testCreateCivilizationWithAllRelations() {
+    public void testCreateCivilizationRussia() {
         Civilization expectedCivilization = new Civilization();
         expectedCivilization.setName("Russia");
 
@@ -74,15 +78,32 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
         samara.setName("Samara");
         expectedCivilization.addCity(samara);
 
+        moscow.getResources().get(Food.class).setAmount(50);
+        samara.getResources().get(Food.class).setAmount(50);
+
         moscow.addUnit(new Settler());
         moscow.addUnit(new Trader());
+        moscow.addUnit(new Worker());
 
-        samara.addUnit(new Trader());
-        samara.addUnit(new Worker());
+        samara.addUnit(new Archer());
+        samara.addUnit(new Spearman());
         samara.addUnit(new Scout());
 
+
         civilizationDao.create(expectedCivilization);
-        assertEquals(civilizationDao.find(expectedCivilization.getId()), expectedCivilization);
+
+        Civilization actualCivilization = civilizationDao.find(expectedCivilization.getId());
+
+        assertEquals(actualCivilization, expectedCivilization);
+    }
+
+    @Test
+    @Rollback(false)
+    @Ignore
+    public void testFindCivilizationRussia() {
+        Civilization actualCivilization = civilizationDao.find(1);
+
+        assertNotNull(actualCivilization);
     }
 
     @Test

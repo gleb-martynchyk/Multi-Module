@@ -47,6 +47,7 @@ public class City implements Combat, Time {
     private ReligionType dominantReligion;
 
     @OneToMany(mappedBy = "city", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private List<Unit> units;
 
     @Transient
