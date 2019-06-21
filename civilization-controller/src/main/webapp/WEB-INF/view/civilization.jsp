@@ -71,9 +71,9 @@
                                     <div class="col-sm-2">
                                             ${fn:length(item.units)}
                                     </div>
-<%--                                    <div class="col-sm-2">--%>
-<%--                                        <a href="civilizations/${civilization.id}" >+</a>--%>
-<%--                                    </div>--%>
+                                    <div class="col-sm-2">
+                                        <a href="civilizations/${civilization.id}" >+</a>
+                                    </div>
                                 </div>
                             </td>
                             <td>${item.strength}</td>
@@ -99,19 +99,20 @@
                         <form action="/civilizations/${civilization.id}/nextstep" method="get">
                             <button type="submit" class="btn btn-primary ">Do Tick</button>
                         </form>
+
+<%--            TODO кнопка do tick должна быть реализована через js--%>
 <%--            <button id="buttonDelete" onclick="doTickRequest(`/civilizations/${civilization.id}/dotick`)">Do Tick2--%>
 <%--            </button>--%>
 <%--            <input type="button" id="button"  value="Do step"/>--%>
-            <script>
-                button.onclick = function () {
-                    var xmlHttp = new XMLHttpRequest();
-                    xmlHttp.open( "GET", `/civilizations/${civilization.id}/nextstep`, false ); // false for synchronous request
-                    xmlHttp.send( null );
-                    location.reload();
-                };
-            </script>
-            <%--            <a class="btn btn-primary"--%>
-            <%--               href="/civilizations/${civilization.id}/dotick" role="button">Do Tick</a>--%>
+<%--            <script>--%>
+<%--                button.onclick = function () {--%>
+<%--                    var xmlHttp = new XMLHttpRequest();--%>
+<%--                    xmlHttp.open( "GET", `/civilizations/${civilization.id}/nextstep`, false ); // false for synchronous request--%>
+<%--                    xmlHttp.send( null );--%>
+<%--                    location.reload();--%>
+<%--                };--%>
+<%--            </script>--%>
+
         </div>
     </div>
 

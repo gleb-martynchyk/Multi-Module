@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@Transactional(readOnly = false)
+@Transactional
 @RequestMapping("civilizations")
 public class CivilizationController {
 
@@ -99,12 +99,6 @@ public class CivilizationController {
         return "redirect:/civilizations/" + id;
     }
 
-//    @RequestMapping(value = "/processForm", method = RequestMethod.POST)
-//    public String processForm(@RequestParam("message") final String message, final Model model) {
-//        model.addAttribute("message", message);
-//        return "message";
-//    }
-
     @GetMapping("/init")
     public String initializeDatabase() {
         Civilization expectedCivilization = new Civilization();
@@ -119,8 +113,13 @@ public class CivilizationController {
         samara.setName("Samara");
         expectedCivilization.addCity(samara);
 
+        City smolensk = new City(expectedCivilization);
+        smolensk.setName("Smolensk");
+        expectedCivilization.addCity(smolensk);
+
         moscow.getResources().get(Food.class).setAmount(200);
         samara.getResources().get(Food.class).setAmount(50);
+        smolensk.getResources().get(Food.class).setAmount(50);
 
         moscow.addUnit(new Settler());
         moscow.addUnit(new Trader());
@@ -129,8 +128,12 @@ public class CivilizationController {
         samara.addUnit(new Archer());
         samara.addUnit(new Spearman());
 
+        smolensk.addUnit(new Archer());
+        smolensk.addUnit(new Spearman());
+
         moscow.addProducingBuildings(new Mine());
         samara.addProducingBuildings(new Farm());
+        samara.addProducingBuildings(new Mine());
 
 
         civilizationDao.create(expectedCivilization);

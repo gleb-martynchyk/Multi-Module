@@ -1,11 +1,15 @@
 package org.jazzteam.martynchyk.entity.trade;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.jazzteam.martynchyk.entity.City;
 
+import java.util.Objects;
+
 @Getter
 @Setter
+@Data
 public class TradeDealResult {
 
     private City cityThatTrade;
@@ -23,5 +27,11 @@ public class TradeDealResult {
 
     public TradeDealResult() {
         this.status = Status.CREATED;
+    }
+
+    public TradeDealResult(int amountFrom, int amountTo, Status status) {
+        this.amountFrom = amountFrom;
+        this.amountTo = amountTo;
+        this.status = status;
     }
 }

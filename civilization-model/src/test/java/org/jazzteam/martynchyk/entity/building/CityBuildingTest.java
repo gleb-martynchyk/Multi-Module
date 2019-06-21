@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
 
-public class CityBuilding {
+public class CityBuildingTest {
 
     private Logger log = LogManager.getLogger(BattleWithTheCityTest.class);
     private Civilization civilization = new Civilization();

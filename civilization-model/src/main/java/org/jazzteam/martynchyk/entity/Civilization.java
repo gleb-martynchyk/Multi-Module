@@ -1,12 +1,14 @@
 package org.jazzteam.martynchyk.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.jazzteam.martynchyk.entity.enums.ReligionType;
 import org.jazzteam.martynchyk.entity.tree.Tree;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -51,4 +53,24 @@ public class Civilization implements Time {
         cities.remove(city);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Civilization that = (Civilization) o;
+        return id == that.id &&
+                faith == that.faith &&
+                gold == that.gold &&
+                science == that.science &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(capital, that.capital) &&
+                Objects.equals(cities, that.cities) &&
+                dominantReligion == that.dominantReligion &&
+                Objects.equals(scienceTree, that.scienceTree);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, faith, gold, science, capital, cities, dominantReligion, scienceTree);
+    }
 }

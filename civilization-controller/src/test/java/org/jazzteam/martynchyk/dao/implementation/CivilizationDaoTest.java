@@ -12,7 +12,6 @@ import org.jazzteam.martynchyk.entity.units.military.Archer;
 import org.jazzteam.martynchyk.entity.units.military.Scout;
 import org.jazzteam.martynchyk.entity.units.military.Spearman;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -30,6 +29,7 @@ import static org.testng.Assert.*;
 @WebAppConfiguration
 @ContextConfiguration(classes = {HibernateXMLConfig.class, CivilizationDaoConfig.class})
 public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContextTests {
+
     @Autowired
     private CivilizationDao civilizationDao;
 
@@ -63,7 +63,7 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
         civilizationDao.create(russiaDuplicate);
     }
 
-    @Test
+    @Test(testName = "CreateAndSaveCivilization")
 //    @Rollback(false)
     public void testCreateCivilizationRussia() {
         Civilization expectedCivilization = new Civilization();
@@ -89,7 +89,6 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
         samara.addUnit(new Spearman());
         samara.addUnit(new Scout());
 
-
         civilizationDao.create(expectedCivilization);
 
         Civilization actualCivilization = civilizationDao.find(expectedCivilization.getId());
@@ -97,14 +96,13 @@ public class CivilizationDaoTest extends AbstractTransactionalTestNGSpringContex
         assertEquals(actualCivilization, expectedCivilization);
     }
 
-    @Test
-    @Rollback(false)
+    @Test(dependsOnMethods = "testCreateCivilizationRussia")
     @Ignore
     public void testFindCivilizationRussia() {
         Civilization actualCivilization = civilizationDao.find(1);
-
         assertNotNull(actualCivilization);
     }
+
 
     @Test
 //    @Rollback(false)

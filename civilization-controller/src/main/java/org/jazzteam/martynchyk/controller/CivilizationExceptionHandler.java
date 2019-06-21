@@ -11,6 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CivilizationExceptionHandler extends ResponseEntityExceptionHandler {
 
+    //TODO обработчик исключений для контроллера,
+    // в данном случае не используется, потому что у нас не REST API
 //    @ExceptionHandler
 //    protected ResponseEntity<Object> handleNullPointerException(NullPointerException exc, WebRequest request) {
 //        String bodyOfResponse = "There is no such content";

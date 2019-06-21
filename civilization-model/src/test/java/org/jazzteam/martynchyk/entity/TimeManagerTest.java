@@ -20,6 +20,7 @@ import java.util.List;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 public class TimeManagerTest {
 
@@ -76,7 +77,7 @@ public class TimeManagerTest {
         city.doTick();
         double actualUnitHealth = unit.getHealthPoint();
 
-        assertTrue(actualUnitHealth != expectedUnitHealth);
+        assertNotEquals(actualUnitHealth, expectedUnitHealth);
     }
 
     @Test

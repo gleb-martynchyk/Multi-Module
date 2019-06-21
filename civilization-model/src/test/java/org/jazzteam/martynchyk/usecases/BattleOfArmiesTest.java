@@ -15,8 +15,6 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
-//@WebAppConfiguration
-//@ContextConfiguration(classes = {CombatServiceConfig.class})
 public class BattleOfArmiesTest {
 
     private Civilization civilization = new Civilization();

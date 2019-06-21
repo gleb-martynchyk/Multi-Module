@@ -4,6 +4,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -29,6 +30,9 @@ public class MainWebAppInitializer implements WebApplicationInitializer {
 
         FilterRegistration.Dynamic filter = sc.addFilter("hidden-method-filter", new HiddenHttpMethodFilter());
         filter.addMappingForServletNames(null, true, "mvc");
+
+        sc.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
+                .addMappingForUrlPatterns(null, false, "/*");
 
 
     }

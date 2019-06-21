@@ -13,10 +13,13 @@
 <div align="center">
     <h2>Welcome</h2>
 
-    <form method="get" action="list">
+    Invalid username and password.
+
+
+    <form method="post" th:action="@{/login}">
         <div>
             Login:<br>
-            <input type="text" name="login" value="admin" class="form-control-sm">
+            <input type="text" name="username" value="user" class="form-control-sm">
         </div>
         <div>
             Password:<br>
@@ -27,7 +30,7 @@
                 <b>${errorMessage}</b>
             </c:if>
             <br>
-            <input type="submit" value="Войти" class="btn btn-primary">
+            <input type="submit" value="Sign In" class="btn btn-primary">
         </div>
     </form>
 

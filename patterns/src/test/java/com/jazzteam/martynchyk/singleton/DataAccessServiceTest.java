@@ -14,7 +14,7 @@ public class DataAccessServiceTest {
     public void setUp() {
         singletonExcpected = DataAccessService.getInstance();
     }
-    //TODO добавить негативные тесты
+
     @Test
     public void testGetInstance() {
         assertNotNull(DataAccessService.getInstance());

@@ -47,20 +47,13 @@
                 </div>
             </div>
 
-            <%--            <div class="form-row">--%>
-            <%--                <div class="form-group col-md-4">--%>
-            <%--                    <form:label path="dominantReligion" for="inputState">Religion</form:label>--%>
-            <%--                    <select id="inputState" class="form-control">--%>
-            <%--                        <option selected>None</option>--%>
-            <%--                        <option>None</option>--%>
-            <%--                    </select>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-
             <button type="submit" class="btn btn-primary">Create</button>
         </form:form>
 
-
+        <div class="col-sm">
+            <a class="btn btn-primary"
+               href="/civilizations" role="button">Civilizations list</a>
+        </div>
     </div>
 </div>
 </body>

@@ -17,8 +17,8 @@ public class ClientWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/")
-                .setViewName("welcome");
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login-error").setViewName("login-error");
     }
 
     @Bean

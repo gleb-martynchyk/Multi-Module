@@ -55,9 +55,9 @@ public class TreeIteratorTest {
         assertFalse(iterator.hasNext());
     }
 
-    //TODO Осмысленные названия для тестов
+
     @Test
-    public void testHasNextNegative1() {
+    public void testHasNextNegativeManySteps() {
         tree.addChild(2);
         iterator = tree.iterator();
         log.info(iterator.next());

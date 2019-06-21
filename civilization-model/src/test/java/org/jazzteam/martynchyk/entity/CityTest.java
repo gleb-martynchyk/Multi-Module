@@ -4,8 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jazzteam.martynchyk.entity.resources.implementation.Food;
 import org.jazzteam.martynchyk.entity.resources.implementation.Production;
+import org.jazzteam.martynchyk.entity.units.Settler;
 import org.jazzteam.martynchyk.usecases.BattleWithTheCityTest;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.*;
@@ -65,9 +67,22 @@ public class CityTest {
         assertEquals(expected + amount, city.getFood().getAmount());
     }
 
-    @Test
-    public void testExchangeResourcesWithOtherCity() {
+    @Test(dataProvider = "UnitsAndFood")
+    public void testFeedUnits(int unitsCount, int foodAmount) {
+        city.getResources().get(Food.class).setAmount(foodAmount);
+        for (int i = 0; i < unitsCount; i++) {
+            city.addUnit(new Settler());
+        }
+
+        assertTrue(city.feedUnits());
     }
 
-
+    @DataProvider(name = "UnitsAndFood")
+    public Object[][] getUnitsCountAndFoodAmount() {
+        return new Object[][]{
+                {3, 10},
+                {3, 50},
+                {3, 5},
+        };
+    }
 }

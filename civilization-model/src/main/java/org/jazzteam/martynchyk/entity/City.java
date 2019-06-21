@@ -22,7 +22,6 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-@Table
 public class City implements Combat, Time {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -164,14 +163,16 @@ public class City implements Combat, Time {
         besiegeUnits.removeIf(Combat::isDead);
         units.removeIf(Unit::isDead);
 
+//        int nextFoodAmount = getFood().getAmount() - 2 * units.size();
+//        if (nextFoodAmount < 0) {
+//            //health points reduces with a lack of food
+//            units.forEach(unit -> unit.setHealthPoint(unit.getHealthPoint() - 1));
+//        } else {
+//            this.resources.get(Food.class).setAmount(nextFoodAmount);
+//        }
+//        int foodAmount = this.resources.get(Food.class).getAmount();
 
-        int nextFoodAmount = getFood().getAmount() - 2 * units.size();
-        if (nextFoodAmount < 0) {
-            //health points reduces with a lack of food
-            units.forEach(unit -> unit.setHealthPoint(unit.getHealthPoint() - 1));
-        } else {
-            this.resources.get(Food.class).setAmount(nextFoodAmount);
-        }
+        feedUnits();
 
         collectResources();
         if (resourcesAreEmpty()) {
@@ -179,12 +180,43 @@ public class City implements Combat, Time {
         }
     }
 
+    public boolean feedUnits() {
+        int unitMinFoodForStep = 2;
+        boolean returnValue = true;
+        int unitsSize = units.size();
+        Set<Integer> unitsIndexes = new HashSet<>();
+        for (int i = 0; i < unitsSize; i++) {
+            unitsIndexes.add(i);
+        }
+        Random r = new Random();
+        int nextUnitIndex;
+        int nextFoodAmount = resources.get(Food.class).getAmount();
+
+        for (int i = 0; i < unitsSize; i++) {
+            nextUnitIndex = r.nextInt(unitsSize);
+            if (nextFoodAmount < unitMinFoodForStep) {
+                if (units.size() > 0) {
+                    units.get(nextUnitIndex).setHealthPoint(units.get(nextUnitIndex).getHealthPoint() - 1);
+                }
+                returnValue = false;
+            } else {
+                unitsIndexes.remove(nextUnitIndex);
+                unitsSize--;
+                nextFoodAmount -= unitMinFoodForStep;
+            }
+        }
+        resources.get(Food.class).setAmount(nextFoodAmount);
+        return returnValue;
+    }
+
     public TradeDealResult trade(TradeDeal tradeDeal) {
         TradeDealResult tradeResult;
+
         TradeRoute tradeRoute = tradeRoutes.stream()
                 .filter(route -> route.getCityToTrade().agreeToTrade(tradeDeal))
                 .findAny()
                 .orElse(null);
+
         if (tradeRoute != null) {
             tradeResult = tradeRoute.exchange(tradeDeal, this);
         } else {
@@ -192,6 +224,7 @@ public class City implements Combat, Time {
             tradeResult.setStatus(TradeDealResult.Status.REFUSED);
             return tradeResult;
         }
+
         return tradeResult;
     }
 
@@ -206,8 +239,7 @@ public class City implements Combat, Time {
     public boolean agreeToTrade(TradeDeal tradeDeal) {
         int amountOfExcessToGive = getResources().get(tradeDeal.getResourceTo()).getExcess(this);
         int amountOfExcessToTake = getResources().get(tradeDeal.getResourceFrom()).getExcess(this);
-//        return amountOfExcessToGive * 0.3 >= tradeDeal.getAmountTo()
-//                && amountOfExcessToTake * 0.3 <= tradeDeal.getAmountFrom();
+
         return amountOfExcessToGive > amountOfExcessToTake;
     }
 
@@ -245,12 +277,15 @@ public class City implements Combat, Time {
 
     public int requestResourceFromCity(City cityDonor, Class resourceType) {
         int excess = (int) (0.3 * cityDonor.getResources().get(resourceType).getExcess(cityDonor));
-        cityDonor.getResources().get(resourceType).setAmount(
-                cityDonor.getResources().get(resourceType).getAmount() - excess
-        );
-        this.getResources().get(resourceType).setAmount(
-                this.getResources().get(resourceType).getAmount() + excess
-        );
+//        cityDonor.getResources().get(resourceType).setAmount(
+//                cityDonor.getResources().get(resourceType).getAmount() - excess
+//        );
+//        this.getResources().get(resourceType).setAmount(
+//                this.getResources().get(resourceType).getAmount() + excess
+//        );
+
+        cityDonor.updateResourceAmount(resourceType, -excess);
+        this.updateResourceAmount(resourceType, excess);
         //TODO update resource amount, чтобы все было в одной функции
         return excess;
     }

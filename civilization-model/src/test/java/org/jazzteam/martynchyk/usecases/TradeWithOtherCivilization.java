@@ -10,6 +10,7 @@ import org.jazzteam.martynchyk.entity.trade.TradeDeal;
 import org.jazzteam.martynchyk.entity.trade.TradeDealResult;
 import org.jazzteam.martynchyk.entity.trade.TradeRoute;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -40,13 +41,12 @@ public class TradeWithOtherCivilization {
         london.getResources().get(Production.class).setAmount(20);
         london.getResources().get(Food.class).setAmount(20);
 
-        //TODO поменять параметр метода тип кол типо кол
         tradeDeal = new TradeDeal(Production.class, 2, Food.class, 2);
         assertFalse(london.agreeToTrade(tradeDeal));
     }
 
     @Test
-    public void testAgreeToTradOneCityHasFlaw() {
+    public void testAgreeToTradeOneCityHasFlaw() {
         tokyo.getResources().get(Production.class).setAmount(10);
         tokyo.getResources().get(Food.class).setAmount(20);
 
@@ -87,7 +87,6 @@ public class TradeWithOtherCivilization {
 
     @Test
     public void testTradeDealStatus() {
-
         london.getResources().get(Production.class).setAmount(50);
         london.getResources().get(Food.class).setAmount(50);
 
@@ -118,10 +117,54 @@ public class TradeWithOtherCivilization {
         london.executeTradeDeal(tradeDeal, tokyo);
 
         assertTrue(
-                london.getResources().get(Production.class).getAmount() == 10
+                london.getResources().get(Production.class).getAmount() == 8
                         && london.getResources().get(Food.class).getAmount() == 12
                         && tokyo.getResources().get(Production.class).getAmount() == 12
                         && tokyo.getResources().get(Food.class).getAmount() == 8
         );
+    }
+
+    @Test(dataProvider = "ExchangeParameters", dataProviderClass = TradeWithOtherCivilizationDataSource.class)
+    public void testExecuteTradeDealParametrize(
+            int cityAResourceFrom, int cityAResourceTo, int cityBResourceFrom, int cityBResourceTo,
+            TradeDeal deal
+    ) {
+        Class resourceFrom = deal.getResourceFrom();
+        Class resourceTo = deal.getResourceTo();
+
+        london.getResources().get(resourceFrom).setAmount(cityAResourceFrom);
+        london.getResources().get(resourceTo).setAmount(cityAResourceTo);
+
+        tokyo.getResources().get(resourceFrom).setAmount(cityBResourceFrom);
+        tokyo.getResources().get(resourceTo).setAmount(cityBResourceTo);
+
+        london.executeTradeDeal(deal, tokyo);
+
+        assertEquals(cityAResourceFrom - deal.getAmountFrom(), london.getResources().get(resourceFrom).getAmount());
+        assertEquals(cityAResourceTo + deal.getAmountTo(), london.getResources().get(resourceTo).getAmount());
+        assertEquals(cityBResourceFrom + deal.getAmountFrom(), tokyo.getResources().get(resourceFrom).getAmount());
+        assertEquals(cityBResourceTo - deal.getAmountTo(), tokyo.getResources().get(resourceTo).getAmount());
+    }
+
+    @Test(dataProvider = "TradeDealAndResults", dataProviderClass = TradeWithOtherCivilizationDataSource.class)
+    public void testTradeParametrize(
+            int cityAResourceFrom, int cityAResourceTo, int cityBResourceFrom, int cityBResourceTo,
+            TradeDeal deal, TradeDealResult expectedResult
+    ) {
+        Class resourceFrom = deal.getResourceFrom();
+        Class resourceTo = deal.getResourceTo();
+
+        london.getResources().get(resourceFrom).setAmount(cityAResourceFrom);
+        london.getResources().get(resourceTo).setAmount(cityAResourceTo);
+
+        tokyo.getResources().get(resourceFrom).setAmount(cityBResourceFrom);
+        tokyo.getResources().get(resourceTo).setAmount(cityBResourceTo);
+
+        london.addTradeRoute(tokyo);
+        tradeDealResult = london.trade(deal);
+
+        assertEquals(expectedResult.getStatus(), tradeDealResult.getStatus());
+        assertEquals(expectedResult.getAmountFrom(), tradeDealResult.getAmountFrom());
+        assertEquals(expectedResult.getAmountTo(), tradeDealResult.getAmountTo());
     }
 }
