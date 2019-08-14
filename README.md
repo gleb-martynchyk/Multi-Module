@@ -1,4 +1,5 @@
-Описание модулей
+Описание модулей:
+
 bus-stops - многопоточная задача
 civilization-model, civilization-controller - модель ооп и оживление
 object-from-file - задача на рефлексию, прочитать и записать Java объект из файла
